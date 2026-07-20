@@ -77,14 +77,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "AI Security Hub — Master Cybersecurity, Cloud & AI Skills" },
+      {
+        name: "description",
+        content:
+          "Advanced cybersecurity, cloud, and AI security training. Certification tracks (CISSP, CISM, CEH, CCSP), 24 specialized domains, and enterprise programs.",
+      },
+      { name: "author", content: "AI Security Hub" },
+      { property: "og:title", content: "AI Security Hub — Master Cybersecurity, Cloud & AI Skills" },
+      {
+        property: "og:description",
+        content: "Advanced training in cybersecurity, cloud, and AI security.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "AI Security Hub" },
+      { name: "twitter:description", content: "Master Cybersecurity, Cloud & AI Skills for the Future." },
     ],
     links: [
       {
