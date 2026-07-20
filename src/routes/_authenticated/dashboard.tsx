@@ -19,7 +19,7 @@ function Dashboard() {
     queryFn: async () => {
       const { data } = await supabase
         .from("enrollments")
-        .select("id, progress, course:courses(id, slug, title, subtitle, lesson_count)")
+        .select("id, progress_percent, course:courses(id, slug, title, subtitle, lesson_count)")
         .eq("user_id", user!.id);
       return data ?? [];
     },
@@ -39,7 +39,7 @@ function Dashboard() {
 
   const stats = [
     { icon: BookOpen, label: "Enrolled", value: enrollments.length },
-    { icon: GraduationCap, label: "In progress", value: enrollments.filter((e) => (e.progress ?? 0) < 100).length },
+    { icon: GraduationCap, label: "In progress", value: enrollments.filter((e) => (e.progress_percent ?? 0) < 100).length },
     { icon: Award, label: "Certificates", value: certificates.length },
   ];
 
@@ -87,6 +87,7 @@ function Dashboard() {
             ) : (
               enrollments.map((e) => {
                 const c = e.course as { id: string; slug: string; title: string; subtitle: string; lesson_count: number } | null;
+                const pct = e.progress_percent ?? 0;
                 if (!c) return null;
                 return (
                   <div key={e.id} className="flex flex-col gap-4 rounded-xl bg-surface p-6 ring-1 ring-hairline md:flex-row md:items-center md:justify-between">
@@ -94,9 +95,9 @@ function Dashboard() {
                       <h3 className="text-base font-semibold text-foreground">{c.title}</h3>
                       <p className="mt-1 text-sm text-muted-foreground">{c.subtitle}</p>
                       <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-background">
-                        <div className="h-full bg-brand" style={{ width: `${e.progress ?? 0}%` }} />
+                        <div className="h-full bg-brand" style={{ width: `${pct}%` }} />
                       </div>
-                      <div className="mt-2 text-[11px] font-medium text-muted-foreground">{e.progress ?? 0}% complete</div>
+                      <div className="mt-2 text-[11px] font-medium text-muted-foreground">{pct}% complete</div>
                     </div>
                   </div>
                 );
