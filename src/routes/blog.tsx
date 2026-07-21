@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
@@ -34,7 +35,12 @@ function BlogPage() {
       <section className="py-16">
         <div className="mx-auto grid max-w-7xl gap-6 px-6 md:grid-cols-2">
           {posts.map((p) => (
-            <article key={p.id} className="group flex flex-col rounded-xl bg-surface p-8 ring-1 ring-hairline transition-colors hover:ring-brand/40">
+            <Link
+              key={p.id}
+              to="/blog_/$slug"
+              params={{ slug: p.slug }}
+              className="group flex flex-col rounded-xl bg-surface p-8 ring-1 ring-hairline transition-colors hover:ring-brand/40"
+            >
               <div className="flex items-center gap-3 text-[10px] font-bold tracking-widest uppercase">
                 <span className="text-brand">{p.category}</span>
                 <span className="text-muted-foreground">
@@ -43,9 +49,12 @@ function BlogPage() {
               </div>
               <h3 className="mt-4 text-xl font-semibold text-foreground">{p.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.excerpt}</p>
-              <span className="mt-6 text-sm font-medium text-brand">Read →</span>
-            </article>
+              <span className="mt-6 text-sm font-medium text-brand">Read article →</span>
+            </Link>
           ))}
+          {posts.length === 0 ? (
+            <p className="col-span-full text-sm text-muted-foreground">No articles yet — check back soon.</p>
+          ) : null}
         </div>
       </section>
     </PageShell>
