@@ -4,25 +4,51 @@ import { Check } from "lucide-react";
 
 const TIERS = [
   {
-    name: "Individual",
-    price: 29,
-    description: "For self-directed learners building foundational skills.",
-    features: ["Access to 40+ foundational courses", "Community forums", "Course certificates", "Cancel anytime"],
+    name: "Free",
+    price: 0,
+    cadence: "forever",
+    description: "Start exploring cybersecurity fundamentals at zero risk.",
+    features: [
+      "Access to 5 foundational courses",
+      "2 certification prep tracks",
+      "Community forums",
+      "Basic progress tracking",
+      "No credit card required",
+    ],
     highlighted: false,
+    cta: "Create free account",
+  },
+  {
+    name: "Individual",
+    price: 49,
+    cadence: "/month",
+    description: "For self-directed learners actively building a security career.",
+    features: [
+      "20 hands-on courses",
+      "10 certification prep tracks",
+      "Downloadable resources & cheat sheets",
+      "Verified course certificates",
+      "Standard email support",
+      "Cancel anytime",
+    ],
+    highlighted: false,
+    cta: "Start Individual",
   },
   {
     name: "Professional",
-    price: 79,
+    price: 129,
+    cadence: "/month",
     description: "For working practitioners and certification candidates.",
-    features: ["Everything in Individual", "All 140+ courses & cert tracks", "Hands-on virtual labs", "Exam prep simulators", "Priority support"],
+    features: [
+      "All 140+ courses & every cert track",
+      "Full hands-on virtual lab environment",
+      "Exam prep simulators & practice tests",
+      "AI Tutor & 1:1 mentor Q&A sessions",
+      "Priority support · 24h response",
+      "Team-shareable learning analytics",
+    ],
     highlighted: true,
-  },
-  {
-    name: "Enterprise",
-    price: null,
-    description: "For security teams, SOCs, and compliance-driven organizations.",
-    features: ["SSO, SCIM, audit logs", "Custom learning paths", "Dedicated success manager", "Team analytics", "Volume licensing"],
-    highlighted: false,
+    cta: "Go Professional",
   },
 ];
 
@@ -53,20 +79,14 @@ function PricingPage() {
             >
               {t.highlighted ? (
                 <span className="mb-4 inline-flex w-fit items-center rounded-full bg-brand/15 px-3 py-1 text-[10px] font-bold tracking-wider text-brand uppercase ring-1 ring-brand/30">
-                  Most Popular
+                  Recommended
                 </span>
               ) : null}
               <h3 className="text-lg font-semibold text-foreground">{t.name}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{t.description}</p>
               <div className="mt-6 flex items-baseline gap-1">
-                {t.price !== null ? (
-                  <>
-                    <span className="text-4xl font-semibold text-foreground">${t.price}</span>
-                    <span className="text-sm text-muted-foreground">/month</span>
-                  </>
-                ) : (
-                  <span className="text-2xl font-semibold text-foreground">Custom</span>
-                )}
+                <span className="text-4xl font-semibold text-foreground">${t.price}</span>
+                <span className="text-sm text-muted-foreground">{t.cadence}</span>
               </div>
               <ul className="mt-6 flex flex-col gap-3 text-sm text-foreground/90">
                 {t.features.map((f) => (
@@ -76,18 +96,26 @@ function PricingPage() {
                 ))}
               </ul>
               <Link
-                to={t.name === "Enterprise" ? "/contact" : "/auth"}
-                search={t.name !== "Enterprise" ? { mode: "register" } : undefined}
+                to="/auth"
+                search={{ mode: "register" }}
                 className={`mt-8 rounded-md px-4 py-2.5 text-center text-sm font-medium ring-1 transition-colors ${
                   t.highlighted
                     ? "bg-brand text-brand-foreground ring-brand"
                     : "bg-background text-foreground ring-hairline hover:bg-surface-2"
                 }`}
               >
-                {t.name === "Enterprise" ? "Contact sales" : "Get started"}
+                {t.cta}
               </Link>
             </div>
           ))}
+        </div>
+        <div className="mx-auto mt-12 max-w-4xl px-6 text-center">
+          <p className="text-sm text-muted-foreground">
+            Need SSO, SCIM, custom learning paths, or volume licensing for your SOC?{" "}
+            <Link to="/contact" className="font-medium text-brand hover:underline">
+              Talk to our enterprise team →
+            </Link>
+          </p>
         </div>
       </section>
     </PageShell>

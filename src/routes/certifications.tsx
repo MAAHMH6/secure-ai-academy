@@ -4,15 +4,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
 import { BadgeCheck } from "lucide-react";
 
-const TRACKS = [
-  { code: "CISSP", name: "Certified Information Systems Security Professional", hours: 40 },
-  { code: "CISM", name: "Certified Information Security Manager", hours: 30 },
-  { code: "CISA", name: "Certified Information Systems Auditor", hours: 32 },
-  { code: "Security+", name: "CompTIA Security+", hours: 28 },
-  { code: "CEH", name: "Certified Ethical Hacker v12", hours: 55 },
-  { code: "CCSP", name: "Certified Cloud Security Professional", hours: 36 },
+const TRACKS: { code: string; name: string; hours: number }[] = [
+  { code: "CISSP", name: "Certified Information Systems Security Professional", hours: 64 },
+  { code: "CISM", name: "Certified Information Security Manager", hours: 52 },
+  { code: "CISA", name: "Certified Information Systems Auditor", hours: 48 },
+  { code: "Security+", name: "CompTIA Security+", hours: 42 },
+  { code: "CEH", name: "Certified Ethical Hacker v12", hours: 60 },
+  { code: "CCSP", name: "Certified Cloud Security Professional", hours: 54 },
   { code: "AWS Sec", name: "AWS Certified Security Specialty", hours: 48 },
-  { code: "Azure Sec", name: "Microsoft Azure Security Engineer", hours: 42 },
+  { code: "Azure Sec", name: "Microsoft Azure Security Engineer", hours: 46 },
 ];
 
 export const Route = createFileRoute("/certifications")({
@@ -61,17 +61,13 @@ function CertificationsPage() {
                   </div>
                 </div>
                 <div>
-                  {course ? (
-                    <Link
-                      to="/auth"
-                      search={{ mode: "register" }}
-                      className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand"
-                    >
-                      Start Track — ${(course.price_cents / 100).toFixed(0)}
-                    </Link>
-                  ) : (
-                    <span className="text-xs font-medium text-muted-foreground">Coming soon</span>
-                  )}
+                  <Link
+                    to="/auth"
+                    search={{ mode: "register" }}
+                    className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand"
+                  >
+                    Start Track {course ? `— $${(course.price_cents / 100).toFixed(0)}` : ""}
+                  </Link>
                 </div>
               </div>
             );

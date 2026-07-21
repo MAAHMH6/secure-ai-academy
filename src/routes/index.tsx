@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/site/PageShell";
+import mentorPhoto from "@/assets/mentor.jpg";
 import {
   Shield,
   Cloud,
@@ -204,6 +205,66 @@ function Home() {
                 </div>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About preview */}
+      <section className="border-t border-hairline py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+            <div>
+              <span className="text-[10px] font-bold tracking-widest uppercase text-brand">About the Platform</span>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">
+                Built by practitioners. Guided by 25+ years of experience.
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                AI Security Hub is founded by a technology enthusiast and AI developer, mentored
+                by a senior cybersecurity consultant with more than two and a half decades of
+                enterprise experience. Together we design curriculum that reflects the reality of
+                modern SOCs — not textbook theory.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link
+                  to="/about"
+                  className="rounded-md bg-brand px-5 py-2.5 text-sm font-medium text-brand-foreground ring-1 ring-brand"
+                >
+                  Read our story
+                </Link>
+                <Link
+                  to="/about"
+                  hash="mentor"
+                  className="rounded-md bg-surface px-5 py-2.5 text-sm font-medium text-foreground ring-1 ring-hairline transition-colors hover:bg-surface-2"
+                >
+                  Meet our mentor
+                </Link>
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-[0.9fr_1.1fr]">
+              <div className="overflow-hidden rounded-2xl ring-1 ring-hairline">
+                <img
+                  src={mentorPhoto}
+                  alt="AI Security Hub mentor — 25+ years cybersecurity consulting"
+                  className="aspect-[4/5] w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="flex flex-col gap-4">
+                <div className="rounded-2xl border border-hairline bg-surface p-5">
+                  <div className="text-[10px] font-bold tracking-widest uppercase text-brand">Our Mentor</div>
+                  <p className="mt-2 text-sm font-medium text-foreground">Senior Cybersecurity Consultant</p>
+                  <p className="mt-1 text-xs text-muted-foreground">CISSP · CISM · CISA · ISO 27001</p>
+                </div>
+                <div className="rounded-2xl border border-hairline bg-surface p-5">
+                  <div className="text-3xl font-semibold text-foreground">25+</div>
+                  <div className="mt-1 text-[10px] font-bold tracking-widest uppercase text-muted-foreground">Years of enterprise experience</div>
+                </div>
+                <div className="rounded-2xl border border-hairline bg-surface p-5">
+                  <div className="text-3xl font-semibold text-foreground">500+</div>
+                  <div className="mt-1 text-[10px] font-bold tracking-widest uppercase text-muted-foreground">Practitioners mentored</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

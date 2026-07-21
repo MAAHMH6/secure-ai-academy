@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
+import mentorPhoto from "@/assets/mentor.jpg";
+import { Award, Briefcase, GraduationCap, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -17,6 +19,7 @@ function AboutPage() {
   return (
     <PageShell>
       <PageHeader eyebrow="About" title="Rigorous training for the age of autonomous threats." description="We build the standard curriculum for the practitioners defending the AI-powered economy." />
+      {/* Mission + Values */}
       <section className="py-16">
         <div className="mx-auto grid max-w-7xl gap-16 px-6 lg:grid-cols-2">
           <div>
@@ -37,6 +40,100 @@ function AboutPage() {
             </ul>
           </div>
         </div>
+
+        {/* About Me */}
+        <div id="me" className="mx-auto mt-24 grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.4fr]">
+          <div className="rounded-2xl border border-hairline bg-surface p-8">
+            <div className="text-[10px] font-bold tracking-widest uppercase text-brand">About Me</div>
+            <h3 className="mt-3 text-2xl font-semibold text-foreground">Founder · Technology Enthusiast &amp; AI Developer</h3>
+            <p className="mt-2 text-xs text-muted-foreground">Building the future of security education</p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {["AI Engineering", "LLM Security", "Full-Stack", "Product"].map((t) => (
+                <span key={t} className="rounded-full bg-brand/10 px-2.5 py-1 text-[10px] font-medium text-brand ring-1 ring-brand/20">{t}</span>
+              ))}
+            </div>
+          </div>
+          <div className="text-sm leading-relaxed text-muted-foreground">
+            <p>
+              I&apos;m a technology enthusiast and AI developer building the next generation of
+              cybersecurity education. My work sits at the intersection of applied machine learning
+              and defensive security — designing systems that help practitioners reason about
+              threats faster than adversaries can execute them.
+            </p>
+            <p className="mt-4">
+              AI Security Hub is my answer to a simple observation: the tooling used to attack
+              modern systems has industrialized around AI, while most security training still
+              treats the field as a static discipline. I&apos;m building a platform where
+              curriculum, hands-on labs, and AI-assisted tutoring evolve continuously — so
+              learners graduate ready for the SOC of today, not the SOC of five years ago.
+            </p>
+            <p className="mt-4">
+              Outside the platform, I write about generative AI safety, prompt-injection defense,
+              and the operational realities of running ML systems in adversarial environments.
+            </p>
+          </div>
+        </div>
+
+        {/* Our Mentor */}
+        <div id="mentor" className="mx-auto mt-24 max-w-7xl px-6">
+          <div className="grid gap-12 rounded-2xl border border-hairline bg-gradient-to-b from-surface to-background p-8 lg:grid-cols-[0.9fr_1.5fr] lg:p-12">
+            <div className="flex flex-col gap-4">
+              <div className="overflow-hidden rounded-2xl ring-1 ring-hairline">
+                <img
+                  src={mentorPhoto}
+                  alt="Our mentor — 25+ years cybersecurity consulting experience"
+                  className="aspect-[4/5] w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="rounded-xl bg-surface p-5 ring-1 ring-hairline">
+                <div className="text-[10px] font-bold tracking-widest uppercase text-brand">Credentials</div>
+                <ul className="mt-3 space-y-2 text-xs text-muted-foreground">
+                  <li className="flex items-center gap-2"><Award className="size-3.5 text-brand" /> CISSP · CISM · CISA</li>
+                  <li className="flex items-center gap-2"><ShieldCheck className="size-3.5 text-brand" /> ISO 27001 Lead Auditor</li>
+                  <li className="flex items-center gap-2"><Briefcase className="size-3.5 text-brand" /> 25+ years enterprise consulting</li>
+                  <li className="flex items-center gap-2"><GraduationCap className="size-3.5 text-brand" /> Guest lecturer · industry speaker</li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold tracking-widest uppercase text-brand">About Our Mentor</div>
+              <h3 className="mt-3 text-3xl font-semibold text-foreground">A technology leader with 25+ years of cybersecurity experience.</h3>
+              <p className="mt-3 text-sm text-muted-foreground">Senior Cybersecurity Consultant · Curriculum Advisor</p>
+              <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted-foreground">
+                <p>
+                  Our mentor is a veteran cybersecurity consultant with more than two and a half
+                  decades of experience defending enterprises across banking, telecommunications,
+                  government, and critical infrastructure. He has led security programs for
+                  Fortune 500 companies, designed SOC operations from the ground up, and advised
+                  regulators on national-level cyber resilience strategy.
+                </p>
+                <p>
+                  His career spans the full evolution of the discipline — from the early days of
+                  perimeter firewalls and IDS tuning, through the cloud transformation era, and
+                  into today&apos;s reality of AI-driven threats and zero-trust architectures. He
+                  has personally trained hundreds of analysts, engineers, and CISOs who now hold
+                  senior positions across the industry.
+                </p>
+                <p>
+                  At AI Security Hub, he reviews every certification track, validates our lab
+                  scenarios against real-world incident data, and mentors Professional-tier
+                  learners directly. His philosophy is simple: security is a craft, and craft is
+                  transferred person-to-person — not through slide decks.
+                </p>
+              </div>
+              <div className="mt-8 grid grid-cols-3 gap-4">
+                {[{ k: "25+", v: "Years experience" }, { k: "500+", v: "Practitioners mentored" }, { k: "40+", v: "Enterprise engagements" }].map((s) => (
+                  <div key={s.v} className="rounded-xl border border-hairline bg-background p-4">
+                    <div className="text-2xl font-semibold text-foreground">{s.k}</div>
+                    <div className="mt-1 text-[10px] font-medium tracking-widest uppercase text-muted-foreground">{s.v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="mx-auto mt-20 grid max-w-7xl grid-cols-2 gap-6 px-6 md:grid-cols-4">
           {[
             { k: "50k+", v: "Practitioners trained" },
