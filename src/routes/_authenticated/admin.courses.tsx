@@ -19,7 +19,11 @@ function AdminCourses() {
   const qc = useQueryClient();
   const [creating, setCreating] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    slug: string; title: string; subtitle: string; description: string;
+    level: "beginner" | "intermediate" | "advanced"; price_cents: number; lesson_count: number; duration_minutes: number;
+    is_certification: boolean; published: boolean;
+  }>({
     slug: "", title: "", subtitle: "", description: "",
     level: "beginner", price_cents: 29900, lesson_count: 20, duration_minutes: 900,
     is_certification: false, published: true,
@@ -87,7 +91,7 @@ function AdminCourses() {
               <Input label="Subtitle" value={form.subtitle} onChange={(v) => setForm({ ...form, subtitle: v })} />
               <div>
                 <label className="text-xs font-medium text-muted-foreground">Level</label>
-                <select value={form.level} onChange={(e) => setForm({ ...form, level: e.target.value })} className="mt-1 w-full rounded-md bg-background px-3 py-2 text-sm ring-1 ring-hairline">
+                <select value={form.level} onChange={(e) => setForm({ ...form, level: e.target.value as "beginner" | "intermediate" | "advanced" })} className="mt-1 w-full rounded-md bg-background px-3 py-2 text-sm ring-1 ring-hairline">
                   <option value="beginner">Beginner</option>
                   <option value="intermediate">Intermediate</option>
                   <option value="advanced">Advanced</option>
