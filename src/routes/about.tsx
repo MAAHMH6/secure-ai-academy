@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import mentorPhoto from "@/assets/mentor.jpg";
+import mentorAsset from "@/assets/mentor.jpg.asset.json";
+const mentorPhoto = mentorAsset.url;
 import { Award, Briefcase, GraduationCap, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/about")({
