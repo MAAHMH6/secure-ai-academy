@@ -2,6 +2,7 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
+import { BookOpen, FileText, Users, Award, TrendingUp } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   beforeLoad: async () => {
@@ -17,17 +18,22 @@ function AdminHome() {
   const { data: counts } = useQuery({
     queryKey: ["admin-counts"],
     queryFn: async () => {
-      const [users, courses, enrollments, certs] = await Promise.all([
+      const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+      const [users, courses, enrollments, certs, blogs, recentSignups] = await Promise.all([
         supabase.from("profiles").select("*", { count: "exact", head: true }),
         supabase.from("courses").select("*", { count: "exact", head: true }),
         supabase.from("enrollments").select("*", { count: "exact", head: true }),
         supabase.from("certificates").select("*", { count: "exact", head: true }),
+        supabase.from("blog_posts").select("*", { count: "exact", head: true }),
+        supabase.from("profiles").select("*", { count: "exact", head: true }).gte("created_at", since),
       ]);
       return {
         users: users.count ?? 0,
         courses: courses.count ?? 0,
         enrollments: enrollments.count ?? 0,
         certs: certs.count ?? 0,
+        blogs: blogs.count ?? 0,
+        recentSignups: recentSignups.count ?? 0,
       };
     },
   });
@@ -39,10 +45,12 @@ function AdminHome() {
   });
 
   const stats = [
-    { k: "Users", v: counts?.users ?? "—" },
+    { k: "Total users", v: counts?.users ?? "—" },
+    { k: "Signups (30d)", v: counts?.recentSignups ?? "—" },
     { k: "Courses", v: counts?.courses ?? "—" },
     { k: "Enrollments", v: counts?.enrollments ?? "—" },
-    { k: "Certificates", v: counts?.certs ?? "—" },
+    { k: "Certificates issued", v: counts?.certs ?? "—" },
+    { k: "Blog posts", v: counts?.blogs ?? "—" },
   ];
 
   return (
@@ -50,7 +58,7 @@ function AdminHome() {
       <PageHeader eyebrow="Admin Console" title="Command Center" description="LMS operations, catalog management, and org-wide telemetry." />
       <section className="py-12">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-4 md:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
             {stats.map((s) => (
               <div key={s.k} className="rounded-xl bg-surface p-6 ring-1 ring-hairline">
                 <div className="text-[11px] font-medium tracking-widest text-muted-foreground uppercase">{s.k}</div>
@@ -59,10 +67,34 @@ function AdminHome() {
             ))}
           </div>
 
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <Link to="/admin/courses" className="group flex items-start gap-3 rounded-xl bg-surface p-5 ring-1 ring-hairline hover:ring-brand/40">
+              <BookOpen className="size-5 text-brand" />
+              <div>
+                <div className="text-sm font-semibold text-foreground group-hover:text-brand">Manage courses & certifications</div>
+                <div className="mt-1 text-xs text-muted-foreground">Create, edit, publish, or archive learning products.</div>
+              </div>
+            </Link>
+            <Link to="/admin/blogs" className="group flex items-start gap-3 rounded-xl bg-surface p-5 ring-1 ring-hairline hover:ring-brand/40">
+              <FileText className="size-5 text-brand" />
+              <div>
+                <div className="text-sm font-semibold text-foreground group-hover:text-brand">Manage blog</div>
+                <div className="mt-1 text-xs text-muted-foreground">Write, edit, and publish SEO articles.</div>
+              </div>
+            </Link>
+            <Link to="/profile" className="group flex items-start gap-3 rounded-xl bg-surface p-5 ring-1 ring-hairline hover:ring-brand/40">
+              <Users className="size-5 text-brand" />
+              <div>
+                <div className="text-sm font-semibold text-foreground group-hover:text-brand">Your profile</div>
+                <div className="mt-1 text-xs text-muted-foreground">Avatar, bio, phone, and business contact details.</div>
+              </div>
+            </Link>
+          </div>
+
           <div className="mt-12 rounded-xl bg-surface ring-1 ring-hairline">
             <div className="flex items-center justify-between border-b border-hairline p-6">
-              <h2 className="text-base font-semibold text-foreground">Catalog</h2>
-              <Link to="/courses" className="text-xs font-medium text-brand hover:underline">View public catalog →</Link>
+              <h2 className="text-base font-semibold text-foreground">Recent catalog</h2>
+              <Link to="/admin/courses" className="text-xs font-medium text-brand hover:underline">Manage all →</Link>
             </div>
             <div className="divide-y divide-hairline">
               {recentCourses.map((c) => (
