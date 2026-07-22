@@ -65,7 +65,7 @@ function AdminCourses() {
   function startEdit(c: typeof courses[number]) {
     setForm({
       slug: c.slug, title: c.title, subtitle: c.subtitle ?? "", description: c.description ?? "",
-      level: c.level, price_cents: c.price_cents, lesson_count: c.lesson_count, duration_minutes: c.duration_minutes,
+      level: c.level as "beginner" | "intermediate" | "advanced", price_cents: c.price_cents, lesson_count: c.lesson_count, duration_minutes: c.duration_minutes,
       is_certification: c.is_certification, published: c.published,
     });
     setEditingId(c.id);
