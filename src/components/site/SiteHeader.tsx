@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { Shield } from "lucide-react";
+import { Shield, LogOut, UserCircle2 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
 
 const nav = [
   { to: "/courses", label: "Courses" },
@@ -38,12 +39,24 @@ export function SiteHeader() {
         </div>
         <div className="flex items-center gap-4">
           {loading ? null : session ? (
-            <Link
-              to="/dashboard"
-              className="rounded-md bg-brand px-3 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand transition-transform active:scale-95"
-            >
-              Dashboard
-            </Link>
+            <>
+              <Link to="/profile" className="hidden text-muted-foreground transition-colors hover:text-foreground md:inline-flex" aria-label="Profile">
+                <UserCircle2 className="size-5" />
+              </Link>
+              <Link
+                to="/dashboard"
+                className="rounded-md bg-brand px-3 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand transition-transform active:scale-95"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={() => supabase.auth.signOut()}
+                aria-label="Sign out"
+                className="hidden text-muted-foreground transition-colors hover:text-foreground md:inline-flex"
+              >
+                <LogOut className="size-4" />
+              </button>
+            </>
           ) : (
             <>
               <Link
