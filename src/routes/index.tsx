@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/site/PageShell";
-import mentorPhoto from "@/assets/mentor.jpg";
+import mentorAsset from "@/assets/mentor.jpg.asset.json";
+const mentorPhoto = mentorAsset.url;
 import {
   Shield,
   Cloud,
