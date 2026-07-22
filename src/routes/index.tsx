@@ -272,6 +272,53 @@ function Home() {
 
       {/* Certification callout */}
       <section className="py-24">
+        <div className="mx-auto mb-24 max-w-7xl px-6">
+          <div className="rounded-2xl border border-brand/30 bg-gradient-to-br from-brand/10 via-surface to-background p-8 lg:p-12">
+            <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+              <div>
+                <span className="inline-flex items-center rounded-full bg-brand/15 px-3 py-1 text-[10px] font-bold tracking-widest uppercase text-brand ring-1 ring-brand/30">
+                  Free Masterclass · Lead-Gen for Careers
+                </span>
+                <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+                  The Cybersecurity Career Masterclass — 100% Free.
+                </h2>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground lg:text-base">
+                  We built a free masterclass to help thousands break into cybersecurity. It covers the global
+                  demand for cyber talent, the real career paths beginners overlook, how AI is reshaping the
+                  industry, and a step-by-step learning roadmap you can start this week.
+                </p>
+                <ul className="mt-6 grid gap-2 text-sm text-foreground/90 sm:grid-cols-2">
+                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Global demand & salaries</li>
+                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Career paths that hire beginners</li>
+                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> AI vs. defenders in 2026</li>
+                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> A guided learning roadmap</li>
+                </ul>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Link to="/auth" search={{ mode: "register" }} className="rounded-md bg-brand px-6 py-2.5 text-sm font-medium text-brand-foreground ring-1 ring-brand">
+                    Reserve free seat
+                  </Link>
+                  <Link to="/about" className="rounded-md bg-surface px-6 py-2.5 text-sm font-medium text-foreground ring-1 ring-hairline hover:bg-surface-2">
+                    What's inside →
+                  </Link>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { k: "Free", v: "Zero cost, forever" },
+                  { k: "60 min", v: "Career-defining session" },
+                  { k: "1:1", v: "Founder-led Q&A" },
+                  { k: "500+", v: "Practitioners already enrolled" },
+                ].map((s) => (
+                  <div key={s.k} className="rounded-xl bg-background/60 p-5 ring-1 ring-hairline">
+                    <div className="text-2xl font-semibold text-foreground">{s.k}</div>
+                    <div className="mt-1 text-[10px] font-bold tracking-widest uppercase text-muted-foreground">{s.v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="mx-auto max-w-7xl px-6">
           <div className="rounded-2xl border border-hairline bg-gradient-to-b from-surface to-background p-8 lg:p-12">
             <div className="grid gap-12 lg:grid-cols-2">

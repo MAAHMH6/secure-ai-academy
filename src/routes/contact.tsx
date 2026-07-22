@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
 import { z } from "zod";
-import { Mail, Phone, MapPin, MessageSquare, Building2, Clock } from "lucide-react";
+import { Mail, Phone, MessageSquare, Clock } from "lucide-react";
 
 const schema = z.object({
   name: z.string().trim().min(1).max(100),
@@ -49,10 +49,10 @@ function ContactPage() {
 
   const contactCards = [
     { icon: Mail, label: "Enterprise Sales", value: "enterprise@aisecurityhub.com", href: "mailto:enterprise@aisecurityhub.com" },
-    { icon: MessageSquare, label: "Learner Support", value: "support@aisecurityhub.com", href: "mailto:support@aisecurityhub.com" },
-    { icon: Phone, label: "Phone (UK · 24/5)", value: "+44 (0) 20 8156 0000", href: "tel:+442081560000" },
-    { icon: MapPin, label: "Headquarters", value: "1 Finsbury Ave, London EC2M 2PF, UK", href: "#" },
-    { icon: Building2, label: "Regional Offices", value: "Dubai · Singapore · New York", href: "#" },
+    { icon: Mail, label: "Learner Support", value: "support@aisecurityhub.com", href: "mailto:support@aisecurityhub.com" },
+    { icon: Mail, label: "Founder", value: "muhammedshams911@gmail.com", href: "mailto:muhammedshams911@gmail.com" },
+    { icon: Phone, label: "Call Us", value: "+92 308 8444451", href: "tel:+923088444451" },
+    { icon: MessageSquare, label: "WhatsApp", value: "+92 308 8444451", href: "https://wa.me/923088444451" },
     { icon: Clock, label: "Response SLA", value: "< 1 business day", href: "#" },
   ];
   const inquiryTypes = ["General question", "Enterprise / Team plan", "Certification track", "Partnership", "Media / Press"];
@@ -81,7 +81,7 @@ function ContactPage() {
                     </span>
                     <div className="min-w-0">
                       <div className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground">{c.label}</div>
-                      <div className="mt-1 truncate text-sm font-medium text-foreground group-hover:text-brand">{c.value}</div>
+                      <div className="mt-1 break-all text-sm font-medium text-foreground group-hover:text-brand">{c.value}</div>
                     </div>
                   </a>
                 ))}

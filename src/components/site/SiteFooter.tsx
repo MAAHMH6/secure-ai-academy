@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Shield, Mail, MapPin, Phone, Github, Linkedin, Twitter } from "lucide-react";
+import { Shield, Mail, MapPin, Phone, Github, Linkedin, Twitter, MessageSquare } from "lucide-react";
 
 export function SiteFooter() {
   return (
@@ -19,8 +19,12 @@ export function SiteFooter() {
           </p>
           <ul className="mt-6 space-y-2 text-xs text-muted-foreground">
             <li className="flex items-center gap-2"><Mail className="size-3.5 text-brand" /> support@aisecurityhub.com</li>
-            <li className="flex items-center gap-2"><Phone className="size-3.5 text-brand" /> +44 (0) 20 8156 0000</li>
-            <li className="flex items-center gap-2"><MapPin className="size-3.5 text-brand" /> London · Dubai · Singapore</li>
+            <li className="flex items-center gap-2"><Mail className="size-3.5 text-brand" /> enterprise@aisecurityhub.com</li>
+            <li className="flex items-center gap-2"><Phone className="size-3.5 text-brand" /> +92 308 8444451 (Call)</li>
+            <li className="flex items-center gap-2">
+              <MessageSquare className="size-3.5 text-brand" />
+              <a href="https://wa.me/923088444451" className="hover:text-foreground">+92 308 8444451 (WhatsApp)</a>
+            </li>
           </ul>
           <div className="mt-6 flex gap-3">
             {[Twitter, Linkedin, Github].map((Icon, i) => (
