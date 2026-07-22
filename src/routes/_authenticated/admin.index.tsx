@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
 import { BookOpen, FileText, Users } from "lucide-react";
 
-export const Route = createFileRoute("/_authenticated/admin")({
+export const Route = createFileRoute("/_authenticated/admin/")({
   beforeLoad: async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw redirect({ to: "/auth" });
