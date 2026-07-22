@@ -49,7 +49,7 @@ function AdminBlogs() {
   }
 
   function startEdit(p: typeof posts[number]) {
-    setForm({ slug: p.slug, title: p.title, excerpt: p.excerpt ?? "", content: p.content ?? "", category: p.category, published: p.published });
+    setForm({ slug: p.slug, title: p.title, excerpt: p.excerpt ?? "", content: p.content ?? "", category: p.category ?? "", published: p.published });
     setEditingId(p.id);
     setCreating(true);
   }
