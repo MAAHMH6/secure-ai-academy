@@ -2,7 +2,7 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { BookOpen, FileText, Users, KeyRound } from "lucide-react";
+import { BookOpen, FileText, Users, KeyRound, UserCog } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   beforeLoad: async () => {
@@ -112,6 +112,13 @@ function AdminHome() {
               <div>
                 <div className="text-sm font-semibold text-foreground group-hover:text-brand">Your profile</div>
                 <div className="mt-1 text-xs text-muted-foreground">Avatar, bio, phone, and business contact details.</div>
+              </div>
+            </Link>
+            <Link to="/admin/mentor" className="group flex items-start gap-3 rounded-xl bg-surface p-5 ring-1 ring-hairline hover:ring-brand/40">
+              <UserCog className="size-5 text-brand" />
+              <div>
+                <div className="text-sm font-semibold text-foreground group-hover:text-brand">Edit mentor profile</div>
+                <div className="mt-1 text-xs text-muted-foreground">Update the mentor photo, bio, and stats.</div>
               </div>
             </Link>
           </div>

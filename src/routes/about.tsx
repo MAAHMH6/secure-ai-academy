@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import mentorAsset from "@/assets/mentor.jpg.asset.json";
-const mentorPhoto = mentorAsset.url;
+import { useMentor } from "@/hooks/use-mentor";
 import { Award, Briefcase, GraduationCap, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/about")({
@@ -17,6 +16,7 @@ export const Route = createFileRoute("/about")({
 });
 
 function AboutPage() {
+  const mentor = useMentor();
   return (
     <PageShell>
       <PageHeader eyebrow="About" title="Rigorous training for the age of autonomous threats." description="We build the standard curriculum for the practitioners defending the AI-powered economy." />
@@ -81,8 +81,8 @@ function AboutPage() {
             <div className="flex flex-col gap-4">
               <div className="overflow-hidden rounded-2xl ring-1 ring-hairline">
                 <img
-                  src={mentorPhoto}
-                  alt="Our mentor — 25+ years cybersecurity consulting experience"
+                  src={mentor.photo_url}
+                  alt={`${mentor.name} — ${mentor.headline}`}
                   className="aspect-[4/5] w-full object-cover"
                   loading="lazy"
                 />
@@ -99,32 +99,13 @@ function AboutPage() {
             </div>
             <div>
               <div className="text-[10px] font-bold tracking-widest uppercase text-brand">About Our Mentor</div>
-              <h3 className="mt-3 text-3xl font-semibold text-foreground">A technology leader with 25+ years of cybersecurity experience.</h3>
-              <p className="mt-3 text-sm text-muted-foreground">Senior Cybersecurity Consultant · Curriculum Advisor</p>
-              <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted-foreground">
-                <p>
-                  Our mentor is a veteran cybersecurity consultant with more than two and a half
-                  decades of experience defending enterprises across banking, telecommunications,
-                  government, and critical infrastructure. He has led security programs for
-                  Fortune 500 companies, designed SOC operations from the ground up, and advised
-                  regulators on national-level cyber resilience strategy.
-                </p>
-                <p>
-                  His career spans the full evolution of the discipline — from the early days of
-                  perimeter firewalls and IDS tuning, through the cloud transformation era, and
-                  into today&apos;s reality of AI-driven threats and zero-trust architectures. He
-                  has personally trained hundreds of analysts, engineers, and CISOs who now hold
-                  senior positions across the industry.
-                </p>
-                <p>
-                  At AI Security Hub, he reviews every certification track, validates our lab
-                  scenarios against real-world incident data, and mentors Professional-tier
-                  learners directly. His philosophy is simple: security is a craft, and craft is
-                  transferred person-to-person — not through slide decks.
-                </p>
+              <h3 className="mt-3 text-3xl font-semibold text-foreground">{mentor.name}</h3>
+              <p className="mt-3 text-sm text-muted-foreground">{mentor.headline}</p>
+              <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted-foreground whitespace-pre-line">
+                <p>{mentor.bio}</p>
               </div>
               <div className="mt-8 grid grid-cols-3 gap-4">
-                {[{ k: "25+", v: "Years experience" }, { k: "500+", v: "Practitioners mentored" }, { k: "40+", v: "Enterprise engagements" }].map((s) => (
+                {mentor.stats.map((s) => (
                   <div key={s.v} className="rounded-xl border border-hairline bg-background p-4">
                     <div className="text-2xl font-semibold text-foreground">{s.k}</div>
                     <div className="mt-1 text-[10px] font-medium tracking-widest uppercase text-muted-foreground">{s.v}</div>
