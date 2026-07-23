@@ -62,6 +62,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const mentor = useMentor();
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
