@@ -33,7 +33,7 @@ function AdminMentor() {
 
   async function save() {
     setSaving(true); setMsg(null);
-    const { error } = await supabase.from("site_content").upsert({ key: "mentor", value: form as unknown as Record<string, unknown> });
+    const { error } = await supabase.from("site_content").upsert({ key: "mentor", value: form as unknown as never });
     setSaving(false);
     if (error) { setMsg({ kind: "err", text: error.message }); return; }
     setMsg({ kind: "ok", text: "Mentor details updated." });
