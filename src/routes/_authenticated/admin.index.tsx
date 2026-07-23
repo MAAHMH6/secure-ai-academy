@@ -2,7 +2,7 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { BookOpen, FileText, Users } from "lucide-react";
+import { BookOpen, FileText, Users, KeyRound } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   beforeLoad: async () => {
@@ -44,6 +44,24 @@ function AdminHome() {
       (await supabase.from("courses").select("id, title, published, level, lesson_count, price_cents").order("created_at", { ascending: false }).limit(10)).data ?? [],
   });
 
+  const { data: courseAnalytics = [] } = useQuery({
+    queryKey: ["admin-course-analytics"],
+    queryFn: async () => {
+      const [{ data: courses }, { data: enrolls }, { data: certs }] = await Promise.all([
+        supabase.from("courses").select("id, title, price_cents, published"),
+        supabase.from("enrollments").select("course_id, progress_percent"),
+        supabase.from("certificates").select("course_id"),
+      ]);
+      return (courses ?? []).map((c) => {
+        const rows = (enrolls ?? []).filter((e) => e.course_id === c.id);
+        const completed = rows.filter((e) => (e.progress_percent ?? 0) >= 100).length;
+        const issued = (certs ?? []).filter((x) => x.course_id === c.id).length;
+        const avg = rows.length ? Math.round(rows.reduce((a, e) => a + (e.progress_percent ?? 0), 0) / rows.length) : 0;
+        return { ...c, enrolled: rows.length, completed, issued, avg, revenue: (rows.length * c.price_cents) / 100 };
+      }).sort((a, b) => b.enrolled - a.enrolled);
+    },
+  });
+
   const stats = [
     { k: "Total users", v: counts?.users ?? "—" },
     { k: "Signups (30d)", v: counts?.recentSignups ?? "—" },
@@ -67,12 +85,19 @@ function AdminHome() {
             ))}
           </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Link to="/admin/courses" className="group flex items-start gap-3 rounded-xl bg-surface p-5 ring-1 ring-hairline hover:ring-brand/40">
               <BookOpen className="size-5 text-brand" />
               <div>
                 <div className="text-sm font-semibold text-foreground group-hover:text-brand">Manage courses & certifications</div>
                 <div className="mt-1 text-xs text-muted-foreground">Create, edit, publish, or archive learning products.</div>
+              </div>
+            </Link>
+            <Link to="/admin/access" className="group flex items-start gap-3 rounded-xl bg-surface p-5 ring-1 ring-hairline hover:ring-brand/40">
+              <KeyRound className="size-5 text-brand" />
+              <div>
+                <div className="text-sm font-semibold text-foreground group-hover:text-brand">Grant course access</div>
+                <div className="mt-1 text-xs text-muted-foreground">Enroll any user in any course manually.</div>
               </div>
             </Link>
             <Link to="/admin/blogs" className="group flex items-start gap-3 rounded-xl bg-surface p-5 ring-1 ring-hairline hover:ring-brand/40">
@@ -89,6 +114,42 @@ function AdminHome() {
                 <div className="mt-1 text-xs text-muted-foreground">Avatar, bio, phone, and business contact details.</div>
               </div>
             </Link>
+          </div>
+
+          <div className="mt-12 rounded-xl bg-surface ring-1 ring-hairline">
+            <div className="flex items-center justify-between border-b border-hairline p-6">
+              <h2 className="text-base font-semibold text-foreground">Course analytics</h2>
+              <Link to="/admin/access" className="text-xs font-medium text-brand hover:underline">Grant access →</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+                  <tr className="border-b border-hairline">
+                    <th className="p-4 text-left">Course</th>
+                    <th className="p-4 text-right">Enrolled</th>
+                    <th className="p-4 text-right">Avg progress</th>
+                    <th className="p-4 text-right">Completed</th>
+                    <th className="p-4 text-right">Certs issued</th>
+                    <th className="p-4 text-right">Revenue</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-hairline">
+                  {courseAnalytics.map((c) => (
+                    <tr key={c.id}>
+                      <td className="p-4 font-medium text-foreground">{c.title}</td>
+                      <td className="p-4 text-right text-foreground">{c.enrolled}</td>
+                      <td className="p-4 text-right text-muted-foreground">{c.avg}%</td>
+                      <td className="p-4 text-right text-muted-foreground">{c.completed}</td>
+                      <td className="p-4 text-right text-muted-foreground">{c.issued}</td>
+                      <td className="p-4 text-right font-medium text-foreground">${c.revenue.toLocaleString()}</td>
+                    </tr>
+                  ))}
+                  {courseAnalytics.length === 0 ? (
+                    <tr><td colSpan={6} className="p-6 text-center text-sm text-muted-foreground">No data yet.</td></tr>
+                  ) : null}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div className="mt-12 rounded-xl bg-surface ring-1 ring-hairline">
