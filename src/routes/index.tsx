@@ -244,8 +244,8 @@ function Home() {
             <div className="grid gap-4 sm:grid-cols-[0.9fr_1.1fr]">
               <div className="overflow-hidden rounded-2xl ring-1 ring-hairline">
                 <img
-                  src={mentorPhoto}
-                  alt="AI Security Hub mentor — 25+ years cybersecurity consulting"
+                  src={mentor.photo_url}
+                  alt={`${mentor.name} — ${mentor.headline}`}
                   className="aspect-[4/5] w-full object-cover"
                   loading="lazy"
                 />
