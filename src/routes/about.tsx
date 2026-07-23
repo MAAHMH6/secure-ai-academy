@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
-import mentorAsset from "@/assets/mentor.jpg.asset.json";
-const mentorPhoto = mentorAsset.url;
+import { useMentor } from "@/hooks/use-mentor";
 import { Award, Briefcase, GraduationCap, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/about")({
@@ -17,6 +16,7 @@ export const Route = createFileRoute("/about")({
 });
 
 function AboutPage() {
+  const mentor = useMentor();
   return (
     <PageShell>
       <PageHeader eyebrow="About" title="Rigorous training for the age of autonomous threats." description="We build the standard curriculum for the practitioners defending the AI-powered economy." />
