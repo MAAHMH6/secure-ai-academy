@@ -298,9 +298,9 @@ function Home() {
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{mentor.bio}</p>
               <div className="mt-6 grid grid-cols-3 gap-3">
                 {mentor.stats.map((s) => (
-                  <div key={s.label} className="rounded-xl bg-background p-4 ring-1 ring-hairline">
-                    <div className="text-2xl font-semibold text-foreground">{s.value}</div>
-                    <div className="mt-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{s.label}</div>
+                  <div key={s.k} className="rounded-xl bg-background p-4 ring-1 ring-hairline">
+                    <div className="text-2xl font-semibold text-foreground">{s.k}</div>
+                    <div className="mt-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{s.v}</div>
                   </div>
                 ))}
               </div>
