@@ -38,7 +38,6 @@ function AuthPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "register" | "forgot">(search.mode ?? "login");
-  const [signupMode, setSignupMode] = useState<"email" | "phone">("email");
   const [email, setEmail] = useState("");
   const [businessEmail, setBusinessEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -77,9 +76,8 @@ function AuthPage() {
       if (mode === "register") {
         if (password !== confirmPassword) throw new Error("Passwords do not match");
         if (password.length < 8) throw new Error("Password must be at least 8 characters");
-        const signInIdentifier = signupMode === "email" ? { email } : { phone: `${country}${phone.replace(/^0+/, "")}` };
         const { error } = await supabase.auth.signUp({
-          ...signInIdentifier,
+          email,
           password,
           options: {
             emailRedirectTo: window.location.origin,
@@ -138,15 +136,7 @@ function AuthPage() {
                 <GoogleIcon /> Continue with Google
               </button>
               <div className="my-6 flex items-center gap-3 text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-                <div className="h-px flex-1 bg-hairline" /> or {mode === "login" ? "sign in" : "sign up"} with{" "}
-                {mode === "register" ? (
-                  <span className="inline-flex overflow-hidden rounded-full ring-1 ring-hairline">
-                    <button type="button" onClick={() => setSignupMode("email")} className={`px-2 py-0.5 ${signupMode === "email" ? "bg-brand text-brand-foreground" : ""}`}>Email</button>
-                    <button type="button" onClick={() => setSignupMode("phone")} className={`px-2 py-0.5 ${signupMode === "phone" ? "bg-brand text-brand-foreground" : ""}`}>Phone</button>
-                  </span>
-                ) : (
-                  "email"
-                )}
+                <div className="h-px flex-1 bg-hairline" /> or {mode === "login" ? "sign in" : "sign up"} with email
                 <div className="h-px flex-1 bg-hairline" />
               </div>
             </>
@@ -159,22 +149,19 @@ function AuthPage() {
                   <label className="text-xs font-medium text-muted-foreground">Full name</label>
                   <input value={name} onChange={(e) => setName(e.target.value)} required className="mt-1 w-full rounded-md bg-background px-3 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand" />
                 </div>
-                {signupMode === "email" ? (
-                  <div>
-                    <label className="text-xs font-medium text-muted-foreground">Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1 w-full rounded-md bg-background px-3 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand" />
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground">Email</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1 w-full rounded-md bg-background px-3 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand" />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground">Phone number (optional)</label>
+                  <div className="mt-1 flex gap-2">
+                    <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-28 rounded-md bg-background px-2 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand">
+                      {COUNTRIES.map((c) => <option key={c.code} value={c.code}>{c.code} {c.name}</option>)}
+                    </select>
+                    <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="3088444451" className="flex-1 rounded-md bg-background px-3 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand" />
                   </div>
-                ) : (
-                  <div>
-                    <label className="text-xs font-medium text-muted-foreground">Phone number</label>
-                    <div className="mt-1 flex gap-2">
-                      <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-28 rounded-md bg-background px-2 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand">
-                        {COUNTRIES.map((c) => <option key={c.code} value={c.code}>{c.code} {c.name}</option>)}
-                      </select>
-                      <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="3088444451" className="flex-1 rounded-md bg-background px-3 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand" />
-                    </div>
-                  </div>
-                )}
+                </div>
                 <div>
                   <label className="text-xs font-medium text-muted-foreground">Business email (optional)</label>
                   <input type="email" value={businessEmail} onChange={(e) => setBusinessEmail(e.target.value)} className="mt-1 w-full rounded-md bg-background px-3 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand" />
