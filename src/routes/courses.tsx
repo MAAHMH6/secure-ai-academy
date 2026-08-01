@@ -91,7 +91,7 @@ function CoursesPage() {
                     <span className="text-[10px] font-medium text-muted-foreground">·</span>
                     <span className="inline-flex items-center gap-1 text-[10px] font-medium text-muted-foreground"><Users className="size-3" /> {(1200 + (c.lesson_count * 137)) % 9000 + 500}</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground">{c.title}</h3>
+                  <h3 className="text-lg font-semibold text-foreground"><Link to="/courses/$slug" params={{ slug: c.slug }} className="hover:text-brand">{c.title}</Link></h3>
                   <p className="text-pretty text-sm text-muted-foreground">{c.subtitle}</p>
                   <div className="grid grid-cols-3 gap-2 border-t border-hairline pt-3 text-[10px] text-muted-foreground">
                     <div className="inline-flex items-center gap-1"><Clock className="size-3 text-brand" /> {Math.round(c.lesson_count * 0.75)}h</div>
@@ -103,8 +103,8 @@ function CoursesPage() {
                   </div>
                   <div className="mt-auto flex items-center justify-between border-t border-hairline pt-4">
                     <span className="text-sm font-semibold text-foreground">${(c.price_cents / 100).toFixed(2)}</span>
-                    <Link to="/auth" search={{ mode: "register" }} className="text-sm font-medium text-brand hover:text-brand/80">
-                      Enroll →
+                    <Link to="/courses/$slug" params={{ slug: c.slug }} className="text-sm font-medium text-brand hover:text-brand/80">
+                      View course →
                     </Link>
                   </div>
                 </div>
