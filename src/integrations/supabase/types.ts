@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievements: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          sort_order: number
+          title: string
+          xp_reward: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          sort_order?: number
+          title: string
+          xp_reward?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          sort_order?: number
+          title?: string
+          xp_reward?: number
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           author_id: string | null
@@ -132,6 +165,7 @@ export type Database = {
           id: string
           instructor_id: string | null
           is_certification: boolean
+          kind: Database["public"]["Enums"]["course_kind"]
           lesson_count: number
           level: Database["public"]["Enums"]["course_level"]
           price_cents: number
@@ -151,6 +185,7 @@ export type Database = {
           id?: string
           instructor_id?: string | null
           is_certification?: boolean
+          kind?: Database["public"]["Enums"]["course_kind"]
           lesson_count?: number
           level?: Database["public"]["Enums"]["course_level"]
           price_cents?: number
@@ -170,6 +205,7 @@ export type Database = {
           id?: string
           instructor_id?: string | null
           is_certification?: boolean
+          kind?: Database["public"]["Enums"]["course_kind"]
           lesson_count?: number
           level?: Database["public"]["Enums"]["course_level"]
           price_cents?: number
@@ -263,6 +299,44 @@ export type Database = {
           },
         ]
       }
+      lesson_resources: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          lesson_id: string
+          order_index: number
+          title: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind?: string
+          lesson_id: string
+          order_index?: number
+          title: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          lesson_id?: string
+          order_index?: number
+          title?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_resources_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lessons: {
         Row: {
           content: string | null
@@ -307,6 +381,68 @@ export type Database = {
           },
         ]
       }
+      masterclass_registrations: {
+        Row: {
+          country: string | null
+          country_code: string | null
+          course_id: string
+          created_at: string
+          current_role_title: string | null
+          email: string
+          experience_level: string | null
+          full_name: string
+          goals: string | null
+          heard_from: string | null
+          id: string
+          interested_domain: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          country?: string | null
+          country_code?: string | null
+          course_id: string
+          created_at?: string
+          current_role_title?: string | null
+          email: string
+          experience_level?: string | null
+          full_name: string
+          goals?: string | null
+          heard_from?: string | null
+          id?: string
+          interested_domain?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          country?: string | null
+          country_code?: string | null
+          course_id?: string
+          created_at?: string
+          current_role_title?: string | null
+          email?: string
+          experience_level?: string | null
+          full_name?: string
+          goals?: string | null
+          heard_from?: string | null
+          id?: string
+          interested_domain?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "masterclass_registrations_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       modules: {
         Row: {
           course_id: string
@@ -347,11 +483,17 @@ export type Database = {
           avatar_url: string | null
           bio: string | null
           business_email: string | null
+          country: string | null
           country_code: string | null
           created_at: string
+          current_role_title: string | null
+          experience_level: string | null
           full_name: string | null
           headline: string | null
           id: string
+          interested_domain: string | null
+          last_login_at: string | null
+          lead_source: string | null
           phone: string | null
           updated_at: string
         }
@@ -359,11 +501,17 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           business_email?: string | null
+          country?: string | null
           country_code?: string | null
           created_at?: string
+          current_role_title?: string | null
+          experience_level?: string | null
           full_name?: string | null
           headline?: string | null
           id: string
+          interested_domain?: string | null
+          last_login_at?: string | null
+          lead_source?: string | null
           phone?: string | null
           updated_at?: string
         }
@@ -371,11 +519,17 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           business_email?: string | null
+          country?: string | null
           country_code?: string | null
           created_at?: string
+          current_role_title?: string | null
+          experience_level?: string | null
           full_name?: string | null
           headline?: string | null
           id?: string
+          interested_domain?: string | null
+          last_login_at?: string | null
+          lead_source?: string | null
           phone?: string | null
           updated_at?: string
         }
@@ -434,6 +588,35 @@ export type Database = {
         }
         Relationships: []
       }
+      user_badges: {
+        Row: {
+          achievement_id: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_badges_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -455,6 +638,54 @@ export type Database = {
         }
         Relationships: []
       }
+      user_streaks: {
+        Row: {
+          current_streak: number
+          last_active_date: string | null
+          longest_streak: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          current_streak?: number
+          last_active_date?: string | null
+          longest_streak?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          current_streak?: number
+          last_active_date?: string | null
+          longest_streak?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_xp: {
+        Row: {
+          level: number
+          lifetime_points: number
+          points: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          level?: number
+          lifetime_points?: number
+          points?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          level?: number
+          lifetime_points?: number
+          points?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -470,6 +701,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "instructor" | "student"
+      course_kind: "course" | "certification" | "masterclass"
       course_level: "beginner" | "intermediate" | "advanced"
     }
     CompositeTypes: {
@@ -599,6 +831,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "instructor", "student"],
+      course_kind: ["course", "certification", "masterclass"],
       course_level: ["beginner", "intermediate", "advanced"],
     },
   },
