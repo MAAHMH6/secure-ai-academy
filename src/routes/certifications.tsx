@@ -83,7 +83,11 @@ function CertificationsPage() {
                 </div>
                 <div className="flex items-center justify-between border-t border-hairline pt-4">
                   <span className="text-sm font-semibold text-foreground">{course ? `$${(course.price_cents / 100).toFixed(0)}` : "—"}</span>
-                  <Link to="/auth" search={{ mode: "register" }} className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand">Start track</Link>
+                  {course ? (
+                    <Link to="/courses/$slug" params={{ slug: course.slug }} className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand">Start track</Link>
+                  ) : (
+                    <Link to="/courses" className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand">Start track</Link>
+                  )}
                 </div>
               </div>
             );

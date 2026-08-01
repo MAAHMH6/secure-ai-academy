@@ -65,7 +65,7 @@ function Home() {
             threats. Start with our free career masterclass.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/auth" search={{ mode: "register" }} className="rounded-md bg-brand px-6 py-2.5 text-sm font-medium text-brand-foreground ring-1 ring-brand">
+            <Link to="/courses/$slug" params={{ slug: "cybersecurity-career-masterclass" }} className="rounded-md bg-brand px-6 py-2.5 text-sm font-medium text-brand-foreground ring-1 ring-brand">
               Reserve Free Seat
             </Link>
             <Link to="/courses" className="rounded-md bg-surface px-6 py-2.5 text-sm font-medium text-foreground ring-1 ring-hairline transition-colors hover:bg-surface-2">
@@ -101,7 +101,7 @@ function Home() {
                   <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> A guided learning roadmap</li>
                 </ul>
                 <div className="mt-8 flex flex-wrap gap-3">
-                  <Link to="/auth" search={{ mode: "register" }} className="rounded-md bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground ring-1 ring-brand">
+                  <Link to="/courses/$slug" params={{ slug: "cybersecurity-career-masterclass" }} className="rounded-md bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground ring-1 ring-brand">
                     Reserve Free Seat
                   </Link>
                   <Link to="/pricing" className="rounded-md bg-background/60 px-6 py-3 text-sm font-medium text-foreground ring-1 ring-hairline hover:bg-surface-2">
