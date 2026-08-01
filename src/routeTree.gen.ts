@@ -23,6 +23,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CoursesSlugRouteImport } from './routes/courses_.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
+import { Route as AuthenticatedRegisterMasterclassRouteImport } from './routes/_authenticated/register-masterclass'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
@@ -100,6 +101,12 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRegisterMasterclassRoute =
+  AuthenticatedRegisterMasterclassRouteImport.update({
+    id: '/register-masterclass',
+    path: '/register-masterclass',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -153,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/register-masterclass': typeof AuthenticatedRegisterMasterclassRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
@@ -175,6 +183,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/register-masterclass': typeof AuthenticatedRegisterMasterclassRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
@@ -199,6 +208,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/register-masterclass': typeof AuthenticatedRegisterMasterclassRoute
   '/blog_/$slug': typeof BlogSlugRoute
   '/courses_/$slug': typeof CoursesSlugRoute
   '/_authenticated/admin/access': typeof AuthenticatedAdminAccessRoute
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/dashboard'
     | '/profile'
+    | '/register-masterclass'
     | '/blog/$slug'
     | '/courses/$slug'
     | '/admin/access'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/dashboard'
     | '/profile'
+    | '/register-masterclass'
     | '/blog/$slug'
     | '/courses/$slug'
     | '/admin/access'
@@ -268,6 +280,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/dashboard'
     | '/_authenticated/profile'
+    | '/_authenticated/register-masterclass'
     | '/blog_/$slug'
     | '/courses_/$slug'
     | '/_authenticated/admin/access'
@@ -394,6 +407,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/register-masterclass': {
+      id: '/_authenticated/register-masterclass'
+      path: '/register-masterclass'
+      fullPath: '/register-masterclass'
+      preLoaderRoute: typeof AuthenticatedRegisterMasterclassRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
@@ -449,6 +469,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedRegisterMasterclassRoute: typeof AuthenticatedRegisterMasterclassRoute
   AuthenticatedAdminAccessRoute: typeof AuthenticatedAdminAccessRoute
   AuthenticatedAdminBlogsRoute: typeof AuthenticatedAdminBlogsRoute
   AuthenticatedAdminCoursesRoute: typeof AuthenticatedAdminCoursesRoute
@@ -459,6 +480,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedRegisterMasterclassRoute: AuthenticatedRegisterMasterclassRoute,
   AuthenticatedAdminAccessRoute: AuthenticatedAdminAccessRoute,
   AuthenticatedAdminBlogsRoute: AuthenticatedAdminBlogsRoute,
   AuthenticatedAdminCoursesRoute: AuthenticatedAdminCoursesRoute,
