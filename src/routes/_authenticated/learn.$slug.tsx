@@ -10,7 +10,7 @@ import { CheckCircle2, ChevronLeft, ChevronRight, Circle, Download, Lock, PlayCi
 
 export const Route = createFileRoute("/_authenticated/learn/$slug")({
   validateSearch: (s) => z.object({ lesson: z.string().optional() }).parse(s),
-  component: LessonPlayer;
+  component: LessonPlayer,
 });
 
 type FlatLesson = {
