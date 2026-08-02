@@ -1,7 +1,7 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { PageShell, PageHeader } from "@/components/site/PageShell";
+import { PageShell, PageHeader } from "@/components/admin/AdminPage";
 import { BookOpen, FileText, Users, KeyRound, UserCog } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/")({

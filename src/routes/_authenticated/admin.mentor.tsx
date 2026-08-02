@@ -2,7 +2,7 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { PageShell, PageHeader } from "@/components/site/PageShell";
+import { PageShell, PageHeader } from "@/components/admin/AdminPage";
 import { Save, Plus, Trash2, Upload } from "lucide-react";
 import { DEFAULT_MENTOR, type Mentor } from "@/hooks/use-mentor";
 
@@ -52,7 +52,7 @@ function AdminMentor() {
 
   return (
     <PageShell>
-      <PageHeader eyebrow="Admin · Content" title="Mentor profile" description="Edit the mentor photo, name, headline, biography, and stats shown on the About and Home pages." />
+      <PageHeader eyebrow="Admin · Content" title="Mentor & instructor profile" description="Edit the mentor photo, name, headline, biography, and stats shown on the About and Home pages." />
       <section className="py-12">
         <div className="mx-auto max-w-5xl px-6">
           <Link to="/admin" className="mb-6 inline-block text-sm text-brand hover:underline">← Back to admin</Link>

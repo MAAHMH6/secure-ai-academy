@@ -37,6 +37,7 @@ import { Route as AuthenticatedAdminCoursesRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminBlogsRouteImport } from './routes/_authenticated/admin.blogs'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminAccessRouteImport } from './routes/_authenticated/admin.access'
+import { Route as AuthenticatedAdminCurriculumIdRouteImport } from './routes/_authenticated/admin.curriculum.$id'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -183,6 +184,12 @@ const AuthenticatedAdminAccessRoute =
     path: '/access',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminCurriculumIdRoute =
+  AuthenticatedAdminCurriculumIdRouteImport.update({
+    id: '/curriculum/$id',
+    path: '/curriculum/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -212,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/learn/$slug': typeof AuthenticatedLearnSlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/curriculum/$id': typeof AuthenticatedAdminCurriculumIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -240,6 +248,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/learn/$slug': typeof AuthenticatedLearnSlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/curriculum/$id': typeof AuthenticatedAdminCurriculumIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -271,6 +280,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/learn/$slug': typeof AuthenticatedLearnSlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/curriculum/$id': typeof AuthenticatedAdminCurriculumIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/learn/$slug'
     | '/admin/'
+    | '/admin/curriculum/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -330,6 +341,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/learn/$slug'
     | '/admin'
+    | '/admin/curriculum/$id'
   id:
     | '__root__'
     | '/'
@@ -360,6 +372,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/users'
     | '/_authenticated/learn/$slug'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/curriculum/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -577,6 +590,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAccessRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/curriculum/$id': {
+      id: '/_authenticated/admin/curriculum/$id'
+      path: '/curriculum/$id'
+      fullPath: '/admin/curriculum/$id'
+      preLoaderRoute: typeof AuthenticatedAdminCurriculumIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
@@ -590,6 +610,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminCurriculumIdRoute: typeof AuthenticatedAdminCurriculumIdRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
@@ -602,6 +623,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminCurriculumIdRoute: AuthenticatedAdminCurriculumIdRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
