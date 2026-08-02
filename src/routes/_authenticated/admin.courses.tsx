@@ -5,18 +5,18 @@ import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/admin/AdminPage";
 import { Plus, Trash2, Eye, EyeOff, Edit3 } from "lucide-react";
 
+type Kind = "course" | "certification" | "masterclass";
+
 export const Route = createFileRoute("/_authenticated/admin/courses")({
-  beforeLoad: async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw redirect({ to: "/auth" });
-    const { data } = await supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
-    if (!data) throw redirect({ to: "/dashboard" });
-  },
+  validateSearch: (s: Record<string, unknown>) => ({
+    kind: (["course", "certification", "masterclass"].includes(String(s.kind)) ? String(s.kind) : "course") as Kind,
+  }),
   component: AdminCourses,
 });
 
 function AdminCourses() {
   const qc = useQueryClient();
+  const { kind } = Route.useSearch();
   const [creating, setCreating] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<{
@@ -30,8 +30,9 @@ function AdminCourses() {
   });
 
   const { data: courses = [] } = useQuery({
-    queryKey: ["admin-courses"],
-    queryFn: async () => (await supabase.from("courses").select("*").order("created_at", { ascending: false })).data ?? [],
+    queryKey: ["admin-courses", kind],
+    queryFn: async () =>
+      (await supabase.from("courses").select("*").eq("kind", kind).order("created_at", { ascending: false })).data ?? [],
   });
 
   function resetForm() {
@@ -42,24 +43,25 @@ function AdminCourses() {
 
   async function onSave(e: React.FormEvent) {
     e.preventDefault();
+    const payload = { ...form, kind, is_certification: kind === "certification" };
     if (editingId) {
-      await supabase.from("courses").update(form).eq("id", editingId);
+      await supabase.from("courses").update(payload).eq("id", editingId);
     } else {
-      await supabase.from("courses").insert(form);
+      await supabase.from("courses").insert(payload);
     }
     resetForm();
-    qc.invalidateQueries({ queryKey: ["admin-courses"] });
+    qc.invalidateQueries({ queryKey: ["admin-courses", kind] });
   }
 
   async function onDelete(id: string) {
     if (!confirm("Delete this course? This cannot be undone.")) return;
     await supabase.from("courses").delete().eq("id", id);
-    qc.invalidateQueries({ queryKey: ["admin-courses"] });
+    qc.invalidateQueries({ queryKey: ["admin-courses", kind] });
   }
 
   async function togglePublish(id: string, published: boolean) {
     await supabase.from("courses").update({ published: !published }).eq("id", id);
-    qc.invalidateQueries({ queryKey: ["admin-courses"] });
+    qc.invalidateQueries({ queryKey: ["admin-courses", kind] });
   }
 
   function startEdit(c: typeof courses[number]) {
@@ -74,13 +76,17 @@ function AdminCourses() {
 
   return (
     <PageShell>
-      <PageHeader eyebrow="Admin · Catalog" title="Courses & Certifications" description="Create, edit, publish, or remove learning products." />
+      <PageHeader
+        eyebrow="Learning"
+        title={kind === "certification" ? "Certifications" : kind === "masterclass" ? "Masterclasses" : "Courses"}
+        description="Create, edit, publish, or remove learning products, then build their curriculum."
+      />
       <section className="py-12">
-        <div className="mx-auto max-w-7xl px-6">
+        <div>
           <div className="mb-6 flex items-center justify-between">
-            <Link to="/admin" className="text-sm text-brand hover:underline">← Back to admin</Link>
+            <Link to="/admin" className="text-sm text-brand hover:underline">← Back to dashboard</Link>
             <button onClick={() => { resetForm(); setCreating(true); }} className="inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand">
-              <Plus className="size-4" /> New course
+              <Plus className="size-4" /> New {kind}
             </button>
           </div>
 
@@ -104,10 +110,9 @@ function AdminCourses() {
                 <label className="text-xs font-medium text-muted-foreground">Description</label>
                 <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} className="mt-1 w-full rounded-md bg-background px-3 py-2 text-sm ring-1 ring-hairline" />
               </div>
-              <label className="flex items-center gap-2 text-sm text-foreground"><input type="checkbox" checked={form.is_certification} onChange={(e) => setForm({ ...form, is_certification: e.target.checked })} /> Certification track</label>
               <label className="flex items-center gap-2 text-sm text-foreground"><input type="checkbox" checked={form.published} onChange={(e) => setForm({ ...form, published: e.target.checked })} /> Published</label>
               <div className="flex gap-3 md:col-span-2">
-                <button type="submit" className="rounded-md bg-brand px-5 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand">{editingId ? "Update course" : "Create course"}</button>
+                <button type="submit" className="rounded-md bg-brand px-5 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand">{editingId ? `Update ${kind}` : `Create ${kind}`}</button>
                 <button type="button" onClick={resetForm} className="rounded-md bg-background px-5 py-2 text-sm ring-1 ring-hairline">Cancel</button>
               </div>
             </form>
@@ -115,14 +120,15 @@ function AdminCourses() {
 
           <div className="rounded-xl bg-surface ring-1 ring-hairline">
             {courses.map((c) => (
-              <div key={c.id} className="grid grid-cols-[1fr_auto_auto_auto_auto_auto] items-center gap-3 border-b border-hairline px-5 py-3 text-sm last:border-0">
+              <div key={c.id} className="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto] items-center gap-3 border-b border-hairline px-5 py-3 text-sm last:border-0">
                 <div>
                   <div className="font-medium text-foreground">{c.title}</div>
-                  <div className="text-[11px] text-muted-foreground">{c.slug} · {c.is_certification ? "Certification" : "Course"}</div>
+                  <div className="text-[11px] text-muted-foreground">{c.slug} · {c.kind}</div>
                 </div>
                 <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">{c.level}</span>
                 <span className="text-xs text-muted-foreground">{c.lesson_count} lessons</span>
                 <span className="text-xs font-medium text-foreground">${(c.price_cents / 100).toFixed(0)}</span>
+                <Link to="/admin/curriculum/$id" params={{ id: c.id }} className="rounded-md px-2 py-1 text-xs text-brand ring-1 ring-brand/30 hover:bg-brand/10">Curriculum</Link>
                 <button onClick={() => togglePublish(c.id, c.published)} title={c.published ? "Unpublish" : "Publish"} className="rounded-md p-1.5 text-muted-foreground hover:bg-background hover:text-brand">
                   {c.published ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
                 </button>
@@ -132,7 +138,7 @@ function AdminCourses() {
                 </div>
               </div>
             ))}
-            {courses.length === 0 ? <p className="p-8 text-center text-sm text-muted-foreground">No courses yet.</p> : null}
+            {courses.length === 0 ? <p className="p-8 text-center text-sm text-muted-foreground">Nothing here yet.</p> : null}
           </div>
         </div>
       </section>
