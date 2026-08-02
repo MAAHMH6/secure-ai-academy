@@ -26,12 +26,18 @@ import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
 import { Route as AuthenticatedRegisterMasterclassRouteImport } from './routes/_authenticated/register-masterclass'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedLearnSlugRouteImport } from './routes/_authenticated/learn.$slug'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminMentorRouteImport } from './routes/_authenticated/admin.mentor'
+import { Route as AuthenticatedAdminCrmRouteImport } from './routes/_authenticated/admin.crm'
 import { Route as AuthenticatedAdminCoursesRouteImport } from './routes/_authenticated/admin.courses'
 import { Route as AuthenticatedAdminBlogsRouteImport } from './routes/_authenticated/admin.blogs'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminAccessRouteImport } from './routes/_authenticated/admin.access'
+import { Route as AuthenticatedAdminCurriculumIdRouteImport } from './routes/_authenticated/admin.curriculum.$id'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -118,38 +124,71 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
-  id: '/admin/',
-  path: '/admin/',
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
 const AuthenticatedLearnSlugRoute = AuthenticatedLearnSlugRouteImport.update({
   id: '/learn/$slug',
   path: '/learn/$slug',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminMentorRoute =
   AuthenticatedAdminMentorRouteImport.update({
-    id: '/admin/mentor',
-    path: '/admin/mentor',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/mentor',
+    path: '/mentor',
+    getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminCrmRoute = AuthenticatedAdminCrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminCoursesRoute =
   AuthenticatedAdminCoursesRouteImport.update({
-    id: '/admin/courses',
-    path: '/admin/courses',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/courses',
+    path: '/courses',
+    getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminBlogsRoute = AuthenticatedAdminBlogsRouteImport.update({
-  id: '/admin/blogs',
-  path: '/admin/blogs',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  id: '/blogs',
+  path: '/blogs',
+  getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminAnalyticsRoute =
+  AuthenticatedAdminAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminAccessRoute =
   AuthenticatedAdminAccessRouteImport.update({
-    id: '/admin/access',
-    path: '/admin/access',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/access',
+    path: '/access',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCurriculumIdRoute =
+  AuthenticatedAdminCurriculumIdRouteImport.update({
+    id: '/curriculum/$id',
+    path: '/curriculum/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -164,17 +203,23 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/register-masterclass': typeof AuthenticatedRegisterMasterclassRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/blogs': typeof AuthenticatedAdminBlogsRoute
   '/admin/courses': typeof AuthenticatedAdminCoursesRoute
+  '/admin/crm': typeof AuthenticatedAdminCrmRoute
   '/admin/mentor': typeof AuthenticatedAdminMentorRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/learn/$slug': typeof AuthenticatedLearnSlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/curriculum/$id': typeof AuthenticatedAdminCurriculumIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -194,11 +239,16 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/blogs': typeof AuthenticatedAdminBlogsRoute
   '/admin/courses': typeof AuthenticatedAdminCoursesRoute
+  '/admin/crm': typeof AuthenticatedAdminCrmRoute
   '/admin/mentor': typeof AuthenticatedAdminMentorRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/learn/$slug': typeof AuthenticatedLearnSlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/curriculum/$id': typeof AuthenticatedAdminCurriculumIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -214,17 +264,23 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/register-masterclass': typeof AuthenticatedRegisterMasterclassRoute
   '/blog_/$slug': typeof BlogSlugRoute
   '/courses_/$slug': typeof CoursesSlugRoute
   '/_authenticated/admin/access': typeof AuthenticatedAdminAccessRoute
+  '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/blogs': typeof AuthenticatedAdminBlogsRoute
   '/_authenticated/admin/courses': typeof AuthenticatedAdminCoursesRoute
+  '/_authenticated/admin/crm': typeof AuthenticatedAdminCrmRoute
   '/_authenticated/admin/mentor': typeof AuthenticatedAdminMentorRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/learn/$slug': typeof AuthenticatedLearnSlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/curriculum/$id': typeof AuthenticatedAdminCurriculumIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -240,17 +296,23 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reset-password'
     | '/terms'
+    | '/admin'
     | '/dashboard'
     | '/profile'
     | '/register-masterclass'
     | '/blog/$slug'
     | '/courses/$slug'
     | '/admin/access'
+    | '/admin/analytics'
     | '/admin/blogs'
     | '/admin/courses'
+    | '/admin/crm'
     | '/admin/mentor'
+    | '/admin/settings'
+    | '/admin/users'
     | '/learn/$slug'
     | '/admin/'
+    | '/admin/curriculum/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -270,11 +332,16 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/courses/$slug'
     | '/admin/access'
+    | '/admin/analytics'
     | '/admin/blogs'
     | '/admin/courses'
+    | '/admin/crm'
     | '/admin/mentor'
+    | '/admin/settings'
+    | '/admin/users'
     | '/learn/$slug'
     | '/admin'
+    | '/admin/curriculum/$id'
   id:
     | '__root__'
     | '/'
@@ -289,17 +356,23 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reset-password'
     | '/terms'
+    | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/_authenticated/profile'
     | '/_authenticated/register-masterclass'
     | '/blog_/$slug'
     | '/courses_/$slug'
     | '/_authenticated/admin/access'
+    | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/blogs'
     | '/_authenticated/admin/courses'
+    | '/_authenticated/admin/crm'
     | '/_authenticated/admin/mentor'
+    | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/users'
     | '/_authenticated/learn/$slug'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/curriculum/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -440,12 +513,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
-      path: '/admin'
+      path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/learn/$slug': {
       id: '/_authenticated/learn/$slug'
@@ -454,59 +534,115 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLearnSlugRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/mentor': {
       id: '/_authenticated/admin/mentor'
-      path: '/admin/mentor'
+      path: '/mentor'
       fullPath: '/admin/mentor'
       preLoaderRoute: typeof AuthenticatedAdminMentorRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm': {
+      id: '/_authenticated/admin/crm'
+      path: '/crm'
+      fullPath: '/admin/crm'
+      preLoaderRoute: typeof AuthenticatedAdminCrmRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/courses': {
       id: '/_authenticated/admin/courses'
-      path: '/admin/courses'
+      path: '/courses'
       fullPath: '/admin/courses'
       preLoaderRoute: typeof AuthenticatedAdminCoursesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/blogs': {
       id: '/_authenticated/admin/blogs'
-      path: '/admin/blogs'
+      path: '/blogs'
       fullPath: '/admin/blogs'
       preLoaderRoute: typeof AuthenticatedAdminBlogsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/analytics': {
+      id: '/_authenticated/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/access': {
       id: '/_authenticated/admin/access'
-      path: '/admin/access'
+      path: '/access'
       fullPath: '/admin/access'
       preLoaderRoute: typeof AuthenticatedAdminAccessRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/curriculum/$id': {
+      id: '/_authenticated/admin/curriculum/$id'
+      path: '/curriculum/$id'
+      fullPath: '/admin/curriculum/$id'
+      preLoaderRoute: typeof AuthenticatedAdminCurriculumIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAccessRoute: typeof AuthenticatedAdminAccessRoute
+  AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminBlogsRoute: typeof AuthenticatedAdminBlogsRoute
+  AuthenticatedAdminCoursesRoute: typeof AuthenticatedAdminCoursesRoute
+  AuthenticatedAdminCrmRoute: typeof AuthenticatedAdminCrmRoute
+  AuthenticatedAdminMentorRoute: typeof AuthenticatedAdminMentorRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminCurriculumIdRoute: typeof AuthenticatedAdminCurriculumIdRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAccessRoute: AuthenticatedAdminAccessRoute,
+  AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+  AuthenticatedAdminBlogsRoute: AuthenticatedAdminBlogsRoute,
+  AuthenticatedAdminCoursesRoute: AuthenticatedAdminCoursesRoute,
+  AuthenticatedAdminCrmRoute: AuthenticatedAdminCrmRoute,
+  AuthenticatedAdminMentorRoute: AuthenticatedAdminMentorRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminCurriculumIdRoute: AuthenticatedAdminCurriculumIdRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedRegisterMasterclassRoute: typeof AuthenticatedRegisterMasterclassRoute
-  AuthenticatedAdminAccessRoute: typeof AuthenticatedAdminAccessRoute
-  AuthenticatedAdminBlogsRoute: typeof AuthenticatedAdminBlogsRoute
-  AuthenticatedAdminCoursesRoute: typeof AuthenticatedAdminCoursesRoute
-  AuthenticatedAdminMentorRoute: typeof AuthenticatedAdminMentorRoute
   AuthenticatedLearnSlugRoute: typeof AuthenticatedLearnSlugRoute
-  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedRegisterMasterclassRoute: AuthenticatedRegisterMasterclassRoute,
-  AuthenticatedAdminAccessRoute: AuthenticatedAdminAccessRoute,
-  AuthenticatedAdminBlogsRoute: AuthenticatedAdminBlogsRoute,
-  AuthenticatedAdminCoursesRoute: AuthenticatedAdminCoursesRoute,
-  AuthenticatedAdminMentorRoute: AuthenticatedAdminMentorRoute,
   AuthenticatedLearnSlugRoute: AuthenticatedLearnSlugRoute,
-  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
