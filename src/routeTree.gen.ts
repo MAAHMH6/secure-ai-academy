@@ -32,6 +32,7 @@ import { Route as AuthenticatedLearnSlugRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAdminMentorRouteImport } from './routes/_authenticated/admin.mentor'
 import { Route as AuthenticatedAdminCoursesRouteImport } from './routes/_authenticated/admin.courses'
 import { Route as AuthenticatedAdminBlogsRouteImport } from './routes/_authenticated/admin.blogs'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminAccessRouteImport } from './routes/_authenticated/admin.access'
 
 const TermsRoute = TermsRouteImport.update({
@@ -151,6 +152,12 @@ const AuthenticatedAdminBlogsRoute = AuthenticatedAdminBlogsRouteImport.update({
   path: '/blogs',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminAnalyticsRoute =
+  AuthenticatedAdminAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminAccessRoute =
   AuthenticatedAdminAccessRouteImport.update({
     id: '/access',
@@ -177,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/blogs': typeof AuthenticatedAdminBlogsRoute
   '/admin/courses': typeof AuthenticatedAdminCoursesRoute
   '/admin/mentor': typeof AuthenticatedAdminMentorRoute
@@ -201,6 +209,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/blogs': typeof AuthenticatedAdminBlogsRoute
   '/admin/courses': typeof AuthenticatedAdminCoursesRoute
   '/admin/mentor': typeof AuthenticatedAdminMentorRoute
@@ -228,6 +237,7 @@ export interface FileRoutesById {
   '/blog_/$slug': typeof BlogSlugRoute
   '/courses_/$slug': typeof CoursesSlugRoute
   '/_authenticated/admin/access': typeof AuthenticatedAdminAccessRoute
+  '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/blogs': typeof AuthenticatedAdminBlogsRoute
   '/_authenticated/admin/courses': typeof AuthenticatedAdminCoursesRoute
   '/_authenticated/admin/mentor': typeof AuthenticatedAdminMentorRoute
@@ -255,6 +265,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/courses/$slug'
     | '/admin/access'
+    | '/admin/analytics'
     | '/admin/blogs'
     | '/admin/courses'
     | '/admin/mentor'
@@ -279,6 +290,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/courses/$slug'
     | '/admin/access'
+    | '/admin/analytics'
     | '/admin/blogs'
     | '/admin/courses'
     | '/admin/mentor'
@@ -305,6 +317,7 @@ export interface FileRouteTypes {
     | '/blog_/$slug'
     | '/courses_/$slug'
     | '/_authenticated/admin/access'
+    | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/blogs'
     | '/_authenticated/admin/courses'
     | '/_authenticated/admin/mentor'
@@ -492,6 +505,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminBlogsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/analytics': {
+      id: '/_authenticated/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/access': {
       id: '/_authenticated/admin/access'
       path: '/access'
@@ -504,6 +524,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAccessRoute: typeof AuthenticatedAdminAccessRoute
+  AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
   AuthenticatedAdminBlogsRoute: typeof AuthenticatedAdminBlogsRoute
   AuthenticatedAdminCoursesRoute: typeof AuthenticatedAdminCoursesRoute
   AuthenticatedAdminMentorRoute: typeof AuthenticatedAdminMentorRoute
@@ -512,6 +533,7 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAccessRoute: AuthenticatedAdminAccessRoute,
+  AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
   AuthenticatedAdminBlogsRoute: AuthenticatedAdminBlogsRoute,
   AuthenticatedAdminCoursesRoute: AuthenticatedAdminCoursesRoute,
   AuthenticatedAdminMentorRoute: AuthenticatedAdminMentorRoute,
