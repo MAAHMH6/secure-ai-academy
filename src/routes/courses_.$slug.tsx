@@ -93,7 +93,7 @@ function CourseDetail() {
 
   async function enroll() {
     if (!user) {
-      navigate({ to: "/auth", search: { mode: "register" } });
+      navigate({ to: "/auth", search: { mode: "login", redirect: `/courses/${slug}` } });
       return;
     }
     if (!course) return;
@@ -149,7 +149,20 @@ function CourseDetail() {
               >
                 Continue learning · {enrollment.progress_percent}%
               </Link>
-            ) : isMasterclass && !enrollment ? (
+            ) : isMasterclass && !user ? (
+              <>
+                <Link
+                  to="/auth"
+                  search={{ mode: "login", redirect: "/register-masterclass" }}
+                  className="mt-5 block rounded-md bg-brand px-5 py-3 text-center text-sm font-semibold text-brand-foreground ring-1 ring-brand"
+                >
+                  Log in or sign up to reserve
+                </Link>
+                <p className="mt-2 text-center text-[11px] text-muted-foreground">
+                  Free account required — you'll come straight back to the registration form.
+                </p>
+              </>
+            ) : isMasterclass ? (
               <Link
                 to="/register-masterclass"
                 className="mt-5 block rounded-md bg-brand px-5 py-3 text-center text-sm font-semibold text-brand-foreground ring-1 ring-brand"

@@ -153,7 +153,7 @@ function RegisterMasterclass() {
     }
 
     setBusy(false);
-    navigate({ to: "/courses/$slug", params: { slug: MASTERCLASS_SLUG } });
+    navigate({ to: "/dashboard" });
   }
 
   return (
@@ -202,7 +202,7 @@ function RegisterMasterclass() {
               disabled={busy}
               className="w-full rounded-md bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground ring-1 ring-brand disabled:opacity-60"
             >
-              {busy ? "Reserving your seat…" : "Confirm free seat"}
+              {busy ? "Reserving your seat…" : "Finish & add to my dashboard"}
             </button>
             <p className="text-center text-[11px] text-muted-foreground">
               100% free. No credit card. Recorded access forever.
