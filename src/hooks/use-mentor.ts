@@ -12,9 +12,9 @@ export type Mentor = {
 
 export const DEFAULT_MENTOR: Mentor = {
   photo_url: "/__l5e/assets-v1/5beb65f4-fb8f-4df3-8692-cb20c0c4288f/mentor.jpg",
-  name: "Our Mentor",
-  headline: "25+ years cybersecurity consulting",
-  bio: "Our mentor is a veteran cybersecurity consultant with more than two and a half decades of experience.",
+  name: "Shams Ejaz",
+  headline: "Lead Instructor & Mentor · 25+ years cybersecurity consulting",
+  bio: "Shams Ejaz is a veteran cybersecurity consultant with more than two and a half decades of enterprise experience. He designs and teaches every core track on AI Security Hub, from SOC operations and governance to cloud and AI risk.",
   stats: [
     { k: "25+", v: "Years experience" },
     { k: "500+", v: "Practitioners mentored" },
