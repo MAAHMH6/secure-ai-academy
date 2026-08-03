@@ -287,15 +287,19 @@ function Home() {
         </div>
       </section>
 
-      {/* 10. Meet Our Mentor */}
+      {/* 10. Mentor & Lead Instructor (combined) */}
       <section className="border-t border-hairline bg-surface/30 py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
-              <span className="text-[10px] font-bold tracking-widest uppercase text-brand">Meet Our Mentor</span>
+              <span className="text-[10px] font-bold tracking-widest uppercase text-brand">Mentor &amp; Lead Instructor</span>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">{mentor.name}</h2>
               <p className="mt-1 text-sm font-medium text-brand">{mentor.headline}</p>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{mentor.bio}</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Mentor and lead instructor are one and the same here — {mentor.name} authors and
+                teaches every core course, certification track, and lab on the platform.
+              </p>
               <div className="mt-6 grid grid-cols-3 gap-3">
                 {mentor.stats.map((s) => (
                   <div key={s.k} className="rounded-xl bg-background p-4 ring-1 ring-hairline">

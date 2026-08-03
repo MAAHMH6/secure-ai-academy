@@ -15,6 +15,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -25,6 +26,7 @@ import { Route as CoursesSlugRouteImport } from './routes/courses_.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
 import { Route as AuthenticatedRegisterMasterclassRouteImport } from './routes/_authenticated/register-masterclass'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedLeaderboardRouteImport } from './routes/_authenticated/leaderboard'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
@@ -67,6 +69,11 @@ const CoursesRoute = CoursesRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CertificationsRoute = CertificationsRouteImport.update({
@@ -119,6 +126,12 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedLeaderboardRoute =
+  AuthenticatedLeaderboardRouteImport.update({
+    id: '/leaderboard',
+    path: '/leaderboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -197,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRoute
   '/certifications': typeof CertificationsRoute
+  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/pricing': typeof PricingRoute
@@ -205,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/leaderboard': typeof AuthenticatedLeaderboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/register-masterclass': typeof AuthenticatedRegisterMasterclassRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -227,6 +242,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRoute
   '/certifications': typeof CertificationsRoute
+  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/pricing': typeof PricingRoute
@@ -234,6 +250,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/leaderboard': typeof AuthenticatedLeaderboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/register-masterclass': typeof AuthenticatedRegisterMasterclassRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -258,6 +275,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRoute
   '/certifications': typeof CertificationsRoute
+  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/pricing': typeof PricingRoute
@@ -266,6 +284,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/leaderboard': typeof AuthenticatedLeaderboardRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/register-masterclass': typeof AuthenticatedRegisterMasterclassRoute
   '/blog_/$slug': typeof BlogSlugRoute
@@ -290,6 +309,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/certifications'
+    | '/community'
     | '/contact'
     | '/courses'
     | '/pricing'
@@ -298,6 +318,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/dashboard'
+    | '/leaderboard'
     | '/profile'
     | '/register-masterclass'
     | '/blog/$slug'
@@ -320,6 +341,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/certifications'
+    | '/community'
     | '/contact'
     | '/courses'
     | '/pricing'
@@ -327,6 +349,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/dashboard'
+    | '/leaderboard'
     | '/profile'
     | '/register-masterclass'
     | '/blog/$slug'
@@ -350,6 +373,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/certifications'
+    | '/community'
     | '/contact'
     | '/courses'
     | '/pricing'
@@ -358,6 +382,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
+    | '/_authenticated/leaderboard'
     | '/_authenticated/profile'
     | '/_authenticated/register-masterclass'
     | '/blog_/$slug'
@@ -382,6 +407,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BlogRoute: typeof BlogRoute
   CertificationsRoute: typeof CertificationsRoute
+  CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
   CoursesRoute: typeof CoursesRoute
   PricingRoute: typeof PricingRoute
@@ -434,6 +460,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/certifications': {
@@ -504,6 +537,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/leaderboard': {
+      id: '/_authenticated/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof AuthenticatedLeaderboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
@@ -632,6 +672,7 @@ const AuthenticatedAdminRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedLeaderboardRoute: typeof AuthenticatedLeaderboardRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedRegisterMasterclassRoute: typeof AuthenticatedRegisterMasterclassRoute
   AuthenticatedLearnSlugRoute: typeof AuthenticatedLearnSlugRoute
@@ -640,6 +681,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedLeaderboardRoute: AuthenticatedLeaderboardRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedRegisterMasterclassRoute: AuthenticatedRegisterMasterclassRoute,
   AuthenticatedLearnSlugRoute: AuthenticatedLearnSlugRoute,
@@ -655,6 +697,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BlogRoute: BlogRoute,
   CertificationsRoute: CertificationsRoute,
+  CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
   CoursesRoute: CoursesRoute,
   PricingRoute: PricingRoute,

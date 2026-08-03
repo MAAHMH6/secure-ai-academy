@@ -37,7 +37,7 @@ function AboutPage() {
             <ul className="mt-3 space-y-3 text-sm text-muted-foreground">
               <li><span className="text-foreground">Depth over breadth.</span> We ship courses only when they hold up in a real SOC.</li>
               <li><span className="text-foreground">Lab-first.</span> Every technical concept is anchored by a hands-on exercise.</li>
-              <li><span className="text-foreground">Practitioner authored.</span> Our instructors ship security software in production.</li>
+              <li><span className="text-foreground">Practitioner authored.</span> One mentor and lead instructor — Shams Ejaz — authors and teaches every core track.</li>
             </ul>
           </div>
         </div>
@@ -75,7 +75,7 @@ function AboutPage() {
           </div>
         </div>
 
-        {/* Our Mentor */}
+        {/* Mentor & Lead Instructor (combined) */}
         <div id="mentor" className="mx-auto mt-24 max-w-7xl px-6">
           <div className="grid gap-12 rounded-2xl border border-hairline bg-gradient-to-b from-surface to-background p-8 lg:grid-cols-[0.9fr_1.5fr] lg:p-12">
             <div className="flex flex-col gap-4">
@@ -98,11 +98,16 @@ function AboutPage() {
               </div>
             </div>
             <div>
-              <div className="text-[10px] font-bold tracking-widest uppercase text-brand">About Our Mentor</div>
+              <div className="text-[10px] font-bold tracking-widest uppercase text-brand">Mentor &amp; Lead Instructor</div>
               <h3 className="mt-3 text-3xl font-semibold text-foreground">{mentor.name}</h3>
               <p className="mt-3 text-sm text-muted-foreground">{mentor.headline}</p>
               <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted-foreground whitespace-pre-line">
                 <p>{mentor.bio}</p>
+                <p>
+                  Every course, certification track, and lab on the platform is authored and
+                  delivered by {mentor.name} — mentor and lead instructor are one and the same
+                  here, so what you learn comes straight from live enterprise engagements.
+                </p>
               </div>
               <div className="mt-8 grid grid-cols-3 gap-4">
                 {mentor.stats.map((s) => (
