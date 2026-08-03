@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
 import { useAuth } from "@/hooks/use-auth";
-import { UserCircle2 } from "lucide-react";
+import { UserCircle2, FileText, Upload, Trash2, Download } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
@@ -20,6 +20,10 @@ function ProfilePage() {
   const [countryCode, setCountryCode] = useState("+92");
   const [businessEmail, setBusinessEmail] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [resumeName, setResumeName] = useState<string | null>(null);
+  const [resumePath, setResumePath] = useState<string | null>(null);
+  const [resumeBusy, setResumeBusy] = useState(false);
+  const [resumeMsg, setResumeMsg] = useState("");
   const [saved, setSaved] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -39,7 +43,47 @@ function ProfilePage() {
     setCountryCode(profile.country_code ?? "+92");
     setBusinessEmail(profile.business_email ?? "");
     setAvatarUrl(profile.avatar_url ?? "");
+    setResumePath(profile.resume_url ?? null);
+    setResumeName(profile.resume_name ?? null);
   }, [profile]);
+
+  async function onResumeUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+    setResumeMsg("");
+    if (file.size > 5 * 1024 * 1024) { setResumeMsg("Resume must be under 5 MB."); return; }
+    setResumeBusy(true);
+    const ext = file.name.split(".").pop()?.toLowerCase() ?? "pdf";
+    const path = `${user.id}/resume.${ext}`;
+    const up = await supabase.storage.from("resumes").upload(path, file, { upsert: true, contentType: file.type });
+    if (up.error) { setResumeBusy(false); setResumeMsg(up.error.message); return; }
+    const { error: dbErr } = await supabase.from("profiles").update({ resume_url: path, resume_name: file.name }).eq("id", user.id);
+    setResumeBusy(false);
+    if (dbErr) { setResumeMsg(dbErr.message); return; }
+    setResumePath(path);
+    setResumeName(file.name);
+    setResumeMsg("Resume uploaded.");
+    qc.invalidateQueries({ queryKey: ["profile", user.id] });
+  }
+
+  async function onResumeDownload() {
+    if (!resumePath) return;
+    const { data, error } = await supabase.storage.from("resumes").createSignedUrl(resumePath, 60);
+    if (error || !data) { setResumeMsg(error?.message ?? "Could not open resume."); return; }
+    window.open(data.signedUrl, "_blank", "noopener");
+  }
+
+  async function onResumeRemove() {
+    if (!user || !resumePath) return;
+    setResumeBusy(true);
+    await supabase.storage.from("resumes").remove([resumePath]);
+    await supabase.from("profiles").update({ resume_url: null, resume_name: null }).eq("id", user.id);
+    setResumeBusy(false);
+    setResumePath(null);
+    setResumeName(null);
+    setResumeMsg("Resume removed.");
+    qc.invalidateQueries({ queryKey: ["profile", user.id] });
+  }
 
   async function onUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -112,6 +156,33 @@ function ProfilePage() {
               {busy ? "Saving…" : "Save changes"}
             </button>
           </form>
+
+          <div className="mt-8 rounded-2xl bg-surface p-8 ring-1 ring-hairline">
+            <h2 className="text-sm font-semibold text-foreground">Resume / CV</h2>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Upload your CV so mentors and hiring partners can review it. PDF or Word, up to 5 MB. Only you and platform admins can access it.
+            </p>
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <label className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-background px-4 py-2 text-sm font-medium text-foreground ring-1 ring-hairline hover:bg-surface-2">
+                <Upload className="size-4" /> {resumePath ? "Replace resume" : "Upload resume"}
+                <input type="file" accept=".pdf,.doc,.docx,application/pdf" className="hidden" onChange={onResumeUpload} disabled={resumeBusy} />
+              </label>
+              {resumePath ? (
+                <>
+                  <span className="inline-flex items-center gap-2 rounded-md bg-background px-3 py-2 text-xs text-muted-foreground ring-1 ring-hairline">
+                    <FileText className="size-3.5 text-brand" /> {resumeName ?? "resume"}
+                  </span>
+                  <button type="button" onClick={onResumeDownload} className="inline-flex items-center gap-1.5 text-xs font-medium text-brand hover:underline">
+                    <Download className="size-3.5" /> View
+                  </button>
+                  <button type="button" onClick={onResumeRemove} disabled={resumeBusy} className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-destructive">
+                    <Trash2 className="size-3.5" /> Remove
+                  </button>
+                </>
+              ) : null}
+            </div>
+            {resumeMsg ? <p className="mt-3 text-xs text-muted-foreground">{resumeMsg}</p> : null}
+          </div>
         </div>
       </section>
     </PageShell>
