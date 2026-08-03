@@ -1,0 +1,2 @@
+CREATE POLICY "XP readable for leaderboard" ON public.user_xp FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Streaks readable for leaderboard" ON public.user_streaks FOR SELECT TO authenticated USING (true);
