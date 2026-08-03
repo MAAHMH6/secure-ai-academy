@@ -37,7 +37,7 @@ function AboutPage() {
             <ul className="mt-3 space-y-3 text-sm text-muted-foreground">
               <li><span className="text-foreground">Depth over breadth.</span> We ship courses only when they hold up in a real SOC.</li>
               <li><span className="text-foreground">Lab-first.</span> Every technical concept is anchored by a hands-on exercise.</li>
-              <li><span className="text-foreground">Practitioner authored.</span> Our instructors ship security software in production.</li>
+              <li><span className="text-foreground">Practitioner authored.</span> One mentor and lead instructor — Shams Ejaz — authors and teaches every core track.</li>
             </ul>
           </div>
         </div>
