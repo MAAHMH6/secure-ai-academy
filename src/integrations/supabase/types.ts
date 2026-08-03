@@ -154,6 +154,36 @@ export type Database = {
           },
         ]
       }
+      community_channels: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       courses: {
         Row: {
           category_id: string | null
@@ -495,6 +525,8 @@ export type Database = {
           last_login_at: string | null
           lead_source: string | null
           phone: string | null
+          resume_name: string | null
+          resume_url: string | null
           updated_at: string
         }
         Insert: {
@@ -513,6 +545,8 @@ export type Database = {
           last_login_at?: string | null
           lead_source?: string | null
           phone?: string | null
+          resume_name?: string | null
+          resume_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -531,6 +565,8 @@ export type Database = {
           last_login_at?: string | null
           lead_source?: string | null
           phone?: string | null
+          resume_name?: string | null
+          resume_url?: string | null
           updated_at?: string
         }
         Relationships: []
