@@ -15,6 +15,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -68,6 +69,11 @@ const CoursesRoute = CoursesRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CertificationsRoute = CertificationsRouteImport.update({
@@ -204,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRoute
   '/certifications': typeof CertificationsRoute
+  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/pricing': typeof PricingRoute
@@ -235,6 +242,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRoute
   '/certifications': typeof CertificationsRoute
+  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/pricing': typeof PricingRoute
@@ -267,6 +275,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRoute
   '/certifications': typeof CertificationsRoute
+  '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/pricing': typeof PricingRoute
@@ -300,6 +309,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/certifications'
+    | '/community'
     | '/contact'
     | '/courses'
     | '/pricing'
@@ -331,6 +341,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/certifications'
+    | '/community'
     | '/contact'
     | '/courses'
     | '/pricing'
@@ -362,6 +373,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/certifications'
+    | '/community'
     | '/contact'
     | '/courses'
     | '/pricing'
@@ -395,6 +407,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BlogRoute: typeof BlogRoute
   CertificationsRoute: typeof CertificationsRoute
+  CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
   CoursesRoute: typeof CoursesRoute
   PricingRoute: typeof PricingRoute
@@ -447,6 +460,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/certifications': {
@@ -677,6 +697,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BlogRoute: BlogRoute,
   CertificationsRoute: CertificationsRoute,
+  CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
   CoursesRoute: CoursesRoute,
   PricingRoute: PricingRoute,
