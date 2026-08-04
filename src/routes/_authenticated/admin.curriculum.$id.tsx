@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader, AdminCard } from "@/components/admin/AdminPage";
+import { toast } from "sonner";
 import { ArrowDown, ArrowUp, Plus, Trash2, Edit3, Save, X } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/curriculum/$id")({
@@ -59,7 +60,9 @@ function CurriculumBuilder() {
   async function addModule(e: React.FormEvent) {
     e.preventDefault();
     if (!moduleTitle.trim()) return;
-    await supabase.from("modules").insert({ course_id: id, title: moduleTitle.trim(), order_index: modules.length });
+    const { error } = await supabase.from("modules").insert({ course_id: id, title: moduleTitle.trim(), order_index: modules.length });
+    if (error) return toast.error(error.message);
+    toast.success("Module added");
     setModuleTitle("");
     refresh();
   }
@@ -67,7 +70,9 @@ function CurriculumBuilder() {
   async function deleteModule(moduleId: string) {
     if (!confirm("Delete this module and all of its lessons?")) return;
     await supabase.from("lessons").delete().eq("module_id", moduleId);
-    await supabase.from("modules").delete().eq("id", moduleId);
+    const { error } = await supabase.from("modules").delete().eq("id", moduleId);
+    if (error) return toast.error(error.message);
+    toast.success("Module deleted");
     refresh();
   }
 
@@ -95,11 +100,11 @@ function CurriculumBuilder() {
 
   async function saveLesson(e: React.FormEvent, moduleId: string, count: number) {
     e.preventDefault();
-    if (editingLesson) {
-      await supabase.from("lessons").update(lessonForm).eq("id", editingLesson);
-    } else {
-      await supabase.from("lessons").insert({ ...lessonForm, module_id: moduleId, order_index: count });
-    }
+    const { error } = editingLesson
+      ? await supabase.from("lessons").update(lessonForm).eq("id", editingLesson)
+      : await supabase.from("lessons").insert({ ...lessonForm, module_id: moduleId, order_index: count });
+    if (error) return toast.error(error.message);
+    toast.success(editingLesson ? "Lesson updated" : "Lesson added");
     setLessonForm(emptyLesson);
     setEditingLesson(null);
     setLessonFor(null);
@@ -108,7 +113,9 @@ function CurriculumBuilder() {
 
   async function deleteLesson(lessonId: string) {
     if (!confirm("Delete this lesson?")) return;
-    await supabase.from("lessons").delete().eq("id", lessonId);
+    const { error } = await supabase.from("lessons").delete().eq("id", lessonId);
+    if (error) return toast.error(error.message);
+    toast.success("Lesson deleted");
     refresh();
   }
 
@@ -116,7 +123,9 @@ function CurriculumBuilder() {
   const totalMinutes = lessons.reduce((a, l) => a + (l.duration_minutes ?? 0), 0);
 
   async function syncCounts() {
-    await supabase.from("courses").update({ lesson_count: totalLessons, duration_minutes: totalMinutes }).eq("id", id);
+    const { error } = await supabase.from("courses").update({ lesson_count: totalLessons, duration_minutes: totalMinutes }).eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success("Course totals synced");
     qc.invalidateQueries({ queryKey: ["builder-course", id] });
     qc.invalidateQueries({ queryKey: ["admin-courses"] });
   }

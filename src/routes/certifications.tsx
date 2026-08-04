@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
+import { formatPkr, formatUsd } from "@/lib/site-data";
 import { BadgeCheck, Clock, FlaskConical, Trophy, Briefcase, Target, GraduationCap } from "lucide-react";
 
 type Track = {
@@ -42,7 +43,13 @@ function CertificationsPage() {
   const { data: certCourses = [] } = useQuery({
     queryKey: ["cert-courses"],
     queryFn: async () =>
-      (await supabase.from("courses").select("id, slug, title, cert_code, lesson_count, price_cents").eq("published", true).eq("is_certification", true)).data ?? [],
+      (
+        await supabase
+          .from("courses")
+          .select("id, slug, title, cert_code, lesson_count, price_cents, display_status, free_enroll")
+          .eq("published", true)
+          .eq("is_certification", true)
+      ).data ?? [],
   });
 
   return (
@@ -71,7 +78,14 @@ function CertificationsPage() {
                       <h3 className="mt-1 text-base font-semibold text-foreground">{t.name}</h3>
                     </div>
                   </div>
-                  <span className="rounded-full bg-background px-2.5 py-0.5 text-[10px] font-bold tracking-wider text-muted-foreground uppercase ring-1 ring-hairline">{t.difficulty}</span>
+                  <div className="flex flex-col items-end gap-1.5">
+                    <span className="rounded-full bg-background px-2.5 py-0.5 text-[10px] font-bold tracking-wider text-muted-foreground uppercase ring-1 ring-hairline">{t.difficulty}</span>
+                    {course && course.display_status !== "live" ? (
+                      <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-[10px] font-bold tracking-wider text-brand uppercase ring-1 ring-brand/20">
+                        {course.display_status === "coming_soon" ? "Coming soon" : "In development"}
+                      </span>
+                    ) : null}
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   <Stat icon={Clock} label="Study hours" value={`${t.hours}h`} />
@@ -82,7 +96,14 @@ function CertificationsPage() {
                   <Stat icon={GraduationCap} label="Career paths" value={t.paths.join(", ")} />
                 </div>
                 <div className="flex items-center justify-between border-t border-hairline pt-4">
-                  <span className="text-sm font-semibold text-foreground">{course ? `$${(course.price_cents / 100).toFixed(0)}` : "—"}</span>
+                  <div>
+                    <div className="text-sm font-semibold text-foreground">
+                      {course ? (course.free_enroll ? "Free" : formatUsd(course.price_cents)) : "—"}
+                    </div>
+                    {course && !course.free_enroll && course.price_cents > 0 ? (
+                      <div className="text-[10px] text-muted-foreground">{formatPkr(course.price_cents)}</div>
+                    ) : null}
+                  </div>
                   {course ? (
                     <Link to="/courses/$slug" params={{ slug: course.slug }} className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand">Start track</Link>
                   ) : (
