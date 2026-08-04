@@ -90,6 +90,9 @@ function CourseDetail() {
   const modules = [...(course.modules ?? [])].sort((a, b) => a.order_index - b.order_index);
   const lessonTotal = modules.reduce((n, m) => n + (m.lessons?.length ?? 0), 0) || course.lesson_count;
   const isMasterclass = course.kind === "masterclass";
+  const status = (course.display_status ?? "live") as "live" | "coming_soon" | "in_development";
+  const unavailable = status !== "live";
+  const freeEnroll = course.free_enroll || course.price_cents === 0;
 
   async function enroll() {
     if (!user) {
@@ -111,6 +114,8 @@ function CourseDetail() {
           <div>
             <div className="flex flex-wrap gap-2">
               <Badge>{isMasterclass ? "Free Masterclass" : course.is_certification ? "Certification" : "Course"}</Badge>
+              {status === "coming_soon" ? <Badge>Coming soon</Badge> : null}
+              {status === "in_development" ? <Badge>In development</Badge> : null}
               <Badge>{course.level}</Badge>
               <Badge>{Math.max(1, Math.round((course.duration_minutes || lessonTotal * 45) / 60))} hours</Badge>
               <Badge>{lessonTotal} lessons</Badge>
@@ -134,14 +139,30 @@ function CourseDetail() {
 
           <aside className="h-fit rounded-2xl bg-surface p-6 ring-1 ring-hairline">
             <div className="aspect-video overflow-hidden rounded-lg bg-gradient-to-br from-brand/25 via-surface to-background ring-1 ring-hairline">
-              <div className="grid h-full place-items-center">
-                <PlayCircle className="size-12 text-brand" />
-              </div>
+              {course.cover_url ? (
+                <img src={course.cover_url} alt={course.title} className="h-full w-full object-cover" loading="lazy" />
+              ) : (
+                <div className="grid h-full place-items-center">
+                  <PlayCircle className="size-12 text-brand" />
+                </div>
+              )}
             </div>
             <div className="mt-5 text-3xl font-semibold text-foreground">
-              {course.price_cents === 0 ? "Free" : `$${(course.price_cents / 100).toFixed(0)}`}
+              {freeEnroll ? "Free" : `$${(course.price_cents / 100).toFixed(0)}`}
             </div>
-            {enrollment ? (
+            {unavailable && !enrollment ? (
+              <>
+                <button
+                  disabled
+                  className="mt-5 w-full cursor-not-allowed rounded-md bg-surface-2 px-5 py-3 text-sm font-semibold text-muted-foreground ring-1 ring-hairline"
+                >
+                  {status === "coming_soon" ? "Coming soon" : "In development"}
+                </button>
+                <p className="mt-2 text-center text-[11px] text-muted-foreground">
+                  Enrollment opens once this track goes live.
+                </p>
+              </>
+            ) : enrollment ? (
               <Link
                 to="/learn/$slug"
                 params={{ slug: course.slug }}
@@ -175,7 +196,7 @@ function CourseDetail() {
                 disabled={busy}
                 className="mt-5 w-full rounded-md bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground ring-1 ring-brand disabled:opacity-60"
               >
-                {busy ? "Enrolling…" : "Enroll now"}
+                {busy ? "Enrolling…" : freeEnroll ? "Enroll free" : "Enroll now"}
               </button>
             )}
             <ul className="mt-6 space-y-2 text-xs text-muted-foreground">
