@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
+import { formatPkr, formatUsd } from "@/lib/site-data";
 import { z } from "zod";
 import { Clock, BookOpen, FlaskConical, Target, Award, User, Users, Star } from "lucide-react";
 
