@@ -127,13 +127,29 @@ function AdminCourses() {
                 </select>
               </div>
               <Input label="Price (cents)" type="number" value={String(form.price_cents)} onChange={(v) => setForm({ ...form, price_cents: Number(v) })} />
+              <div>
+                <label className="text-xs font-medium text-muted-foreground">Display status</label>
+                <select value={form.display_status} onChange={(e) => setForm({ ...form, display_status: e.target.value as DisplayStatus })} className="mt-1 w-full rounded-md bg-background px-3 py-2 text-sm ring-1 ring-hairline">
+                  <option value="live">Live · enroll open</option>
+                  <option value="coming_soon">Coming soon</option>
+                  <option value="in_development">In development</option>
+                </select>
+              </div>
               <Input label="Lessons" type="number" value={String(form.lesson_count)} onChange={(v) => setForm({ ...form, lesson_count: Number(v) })} />
               <Input label="Duration (min)" type="number" value={String(form.duration_minutes)} onChange={(v) => setForm({ ...form, duration_minutes: Number(v) })} />
+              <Input label="Thumbnail image URL" value={form.cover_url} onChange={(v) => setForm({ ...form, cover_url: v })} />
+              {kind === "certification" ? (
+                <Input label="Certification code (e.g. CISSP)" value={form.cert_code} onChange={(v) => setForm({ ...form, cert_code: v })} />
+              ) : null}
+              <p className="self-end text-xs text-muted-foreground md:col-span-2">
+                Learners see {form.free_enroll || form.price_cents === 0 ? "Free" : `$${(form.price_cents / 100).toFixed(0)} · ${formatPkr(form.price_cents)}`}
+              </p>
               <div className="md:col-span-2">
                 <label className="text-xs font-medium text-muted-foreground">Description</label>
                 <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} className="mt-1 w-full rounded-md bg-background px-3 py-2 text-sm ring-1 ring-hairline" />
               </div>
               <label className="flex items-center gap-2 text-sm text-foreground"><input type="checkbox" checked={form.published} onChange={(e) => setForm({ ...form, published: e.target.checked })} /> Published</label>
+              <label className="flex items-center gap-2 text-sm text-foreground"><input type="checkbox" checked={form.free_enroll} onChange={(e) => setForm({ ...form, free_enroll: e.target.checked })} /> Free enrollment for everyone</label>
               <div className="flex gap-3 md:col-span-2">
                 <button type="submit" className="rounded-md bg-brand px-5 py-2 text-sm font-medium text-brand-foreground ring-1 ring-brand">{editingId ? `Update ${kind}` : `Create ${kind}`}</button>
                 <button type="button" onClick={resetForm} className="rounded-md bg-background px-5 py-2 text-sm ring-1 ring-hairline">Cancel</button>
@@ -150,7 +166,10 @@ function AdminCourses() {
                 </div>
                 <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">{c.level}</span>
                 <span className="text-xs text-muted-foreground">{c.lesson_count} lessons</span>
-                <span className="text-xs font-medium text-foreground">${(c.price_cents / 100).toFixed(0)}</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  {c.display_status === "live" ? "" : c.display_status === "coming_soon" ? "Coming soon" : "In dev"}
+                </span>
+                <span className="text-xs font-medium text-foreground">{c.free_enroll ? "Free" : `$${(c.price_cents / 100).toFixed(0)}`}</span>
                 <Link to="/admin/curriculum/$id" params={{ id: c.id }} className="rounded-md px-2 py-1 text-xs text-brand ring-1 ring-brand/30 hover:bg-brand/10">Curriculum</Link>
                 <button onClick={() => togglePublish(c.id, c.published)} title={c.published ? "Unpublish" : "Publish"} className="rounded-md p-1.5 text-muted-foreground hover:bg-background hover:text-brand">
                   {c.published ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
