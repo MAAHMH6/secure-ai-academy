@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/site/PageShell";
 import { useMentor } from "@/hooks/use-mentor";
 import {
-  Shield, Cloud, Cpu, Terminal, KeyRound, Code2, Network, Mail, Flame, Laptop,
+  Shield, Cloud, Terminal, KeyRound, Code2, Network, Mail, Flame, Laptop,
   Database, Braces, GitBranch, Activity, Bot, Sparkles, BrainCircuit, BadgeCheck,
   Award, ClipboardCheck, Bug, Server, Waypoints, Star, Users, Clock, BookOpen,
   Target, FlaskConical, PlayCircle, Calendar, Trophy, TrendingUp, MessagesSquare,
