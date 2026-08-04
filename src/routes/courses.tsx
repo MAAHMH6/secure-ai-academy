@@ -32,7 +32,10 @@ function CoursesPage() {
   const { data: courses = [] } = useQuery({
     queryKey: ["courses", filter],
     queryFn: async () => {
-      let q = supabase.from("courses").select("id, slug, title, subtitle, price_cents, lesson_count, level, is_certification, category_id").eq("published", true);
+      let q = supabase
+        .from("courses")
+        .select("id, slug, title, subtitle, price_cents, lesson_count, level, is_certification, category_id, cover_url, display_status, free_enroll")
+        .eq("published", true);
       if (filter) {
         const cat = categories.find((c) => c.slug === filter);
         if (cat) q = q.eq("category_id", cat.id);
@@ -80,7 +83,16 @@ function CoursesPage() {
                 key={c.id}
                 className="group flex flex-col overflow-hidden rounded-xl bg-surface ring-1 ring-hairline transition-all hover:ring-brand/40"
               >
-                <div className="aspect-video w-full bg-gradient-to-br from-brand/20 via-surface to-surface-2" />
+                <div className="relative aspect-video w-full bg-gradient-to-br from-brand/20 via-surface to-surface-2">
+                  {c.cover_url ? (
+                    <img src={c.cover_url} alt={c.title} className="h-full w-full object-cover" loading="lazy" />
+                  ) : null}
+                  {c.display_status !== "live" ? (
+                    <span className="absolute left-3 top-3 rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand ring-1 ring-brand/30">
+                      {c.display_status === "coming_soon" ? "Coming soon" : "In development"}
+                    </span>
+                  ) : null}
+                </div>
                 <div className="flex flex-1 flex-col gap-3 p-6">
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] font-bold tracking-wider text-brand uppercase">
@@ -102,7 +114,12 @@ function CoursesPage() {
                     <div className="inline-flex items-center gap-1"><User className="size-3 text-brand" /> Expert</div>
                   </div>
                   <div className="mt-auto flex items-center justify-between border-t border-hairline pt-4">
-                    <span className="text-sm font-semibold text-foreground">${(c.price_cents / 100).toFixed(2)}</span>
+                    <div>
+                      <div className="text-sm font-semibold text-foreground">{c.free_enroll ? "Free" : formatUsd(c.price_cents)}</div>
+                      {!c.free_enroll && c.price_cents > 0 ? (
+                        <div className="text-[10px] text-muted-foreground">{formatPkr(c.price_cents)}</div>
+                      ) : null}
+                    </div>
                     <Link to="/courses/$slug" params={{ slug: c.slug }} className="text-sm font-medium text-brand hover:text-brand/80">
                       View course →
                     </Link>
