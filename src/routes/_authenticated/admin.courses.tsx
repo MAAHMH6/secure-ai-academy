@@ -159,7 +159,7 @@ function AdminCourses() {
 
           <div className="rounded-xl bg-surface ring-1 ring-hairline">
             {courses.map((c) => (
-              <div key={c.id} className="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto] items-center gap-3 border-b border-hairline px-5 py-3 text-sm last:border-0">
+              <div key={c.id} className="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto_auto] items-center gap-3 border-b border-hairline px-5 py-3 text-sm last:border-0">
                 <div>
                   <div className="font-medium text-foreground">{c.title}</div>
                   <div className="text-[11px] text-muted-foreground">{c.slug} · {c.kind}</div>
