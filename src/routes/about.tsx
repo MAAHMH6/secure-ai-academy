@@ -42,40 +42,7 @@ function AboutPage() {
           </div>
         </div>
 
-        {/* About Me */}
-        <div id="me" className="mx-auto mt-24 grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.4fr]">
-          <div className="rounded-2xl border border-hairline bg-surface p-8">
-            <div className="text-[10px] font-bold tracking-widest uppercase text-brand">About Me</div>
-            <h3 className="mt-3 text-2xl font-semibold text-foreground">Founder · Technology Enthusiast &amp; AI Developer</h3>
-            <p className="mt-2 text-xs text-muted-foreground">Building the future of security education</p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {["AI Engineering", "LLM Security", "Full-Stack", "Product"].map((t) => (
-                <span key={t} className="rounded-full bg-brand/10 px-2.5 py-1 text-[10px] font-medium text-brand ring-1 ring-brand/20">{t}</span>
-              ))}
-            </div>
-          </div>
-          <div className="text-sm leading-relaxed text-muted-foreground">
-            <p>
-              I&apos;m a technology enthusiast and AI developer building the next generation of
-              cybersecurity education. My work sits at the intersection of applied machine learning
-              and defensive security — designing systems that help practitioners reason about
-              threats faster than adversaries can execute them.
-            </p>
-            <p className="mt-4">
-              AI Security Hub is my answer to a simple observation: the tooling used to attack
-              modern systems has industrialized around AI, while most security training still
-              treats the field as a static discipline. I&apos;m building a platform where
-              curriculum, hands-on labs, and AI-assisted tutoring evolve continuously — so
-              learners graduate ready for the SOC of today, not the SOC of five years ago.
-            </p>
-            <p className="mt-4">
-              Outside the platform, I write about generative AI safety, prompt-injection defense,
-              and the operational realities of running ML systems in adversarial environments.
-            </p>
-          </div>
-        </div>
-
-        {/* Mentor & Lead Instructor (combined) */}
+        {/* Founder · Mentor · Lead Instructor (one person) */}
         <div id="mentor" className="mx-auto mt-24 max-w-7xl px-6">
           <div className="grid gap-12 rounded-2xl border border-hairline bg-gradient-to-b from-surface to-background p-8 lg:grid-cols-[0.9fr_1.5fr] lg:p-12">
             <div className="flex flex-col gap-4">
@@ -98,15 +65,20 @@ function AboutPage() {
               </div>
             </div>
             <div>
-              <div className="text-[10px] font-bold tracking-widest uppercase text-brand">Mentor &amp; Lead Instructor</div>
+              <div className="text-[10px] font-bold tracking-widest uppercase text-brand">Founder · Mentor &amp; Lead Instructor</div>
               <h3 className="mt-3 text-3xl font-semibold text-foreground">{mentor.name}</h3>
               <p className="mt-3 text-sm text-muted-foreground">{mentor.headline}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["Cybersecurity Consulting", "AI Security", "Governance & Audit", "Mentorship"].map((t) => (
+                  <span key={t} className="rounded-full bg-brand/10 px-2.5 py-1 text-[10px] font-medium text-brand ring-1 ring-brand/20">{t}</span>
+                ))}
+              </div>
               <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted-foreground whitespace-pre-line">
                 <p>{mentor.bio}</p>
                 <p>
                   Every course, certification track, and lab on the platform is authored and
-                  delivered by {mentor.name} — mentor and lead instructor are one and the same
-                  here, so what you learn comes straight from live enterprise engagements.
+                  delivered by {mentor.name} — founder, mentor and lead instructor are one and the
+                  same here, so what you learn comes straight from live enterprise engagements.
                 </p>
               </div>
               <div className="mt-8 grid grid-cols-3 gap-4">
