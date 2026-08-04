@@ -3,9 +3,12 @@ import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/admin/AdminPage";
+import { formatPkr } from "@/lib/site-data";
+import { toast } from "sonner";
 import { Plus, Trash2, Eye, EyeOff, Edit3 } from "lucide-react";
 
 type Kind = "course" | "certification" | "masterclass";
+type DisplayStatus = "live" | "coming_soon" | "in_development";
 
 export const Route = createFileRoute("/_authenticated/admin/courses")({
   validateSearch: (s: Record<string, unknown>) => ({
@@ -22,11 +25,13 @@ function AdminCourses() {
   const [form, setForm] = useState<{
     slug: string; title: string; subtitle: string; description: string;
     level: "beginner" | "intermediate" | "advanced"; price_cents: number; lesson_count: number; duration_minutes: number;
-    is_certification: boolean; published: boolean;
+    is_certification: boolean; published: boolean; cover_url: string; cert_code: string;
+    display_status: DisplayStatus; free_enroll: boolean;
   }>({
     slug: "", title: "", subtitle: "", description: "",
     level: "beginner", price_cents: 29900, lesson_count: 20, duration_minutes: 900,
-    is_certification: false, published: true,
+    is_certification: false, published: true, cover_url: "", cert_code: "",
+    display_status: "live", free_enroll: false,
   });
 
   const { data: courses = [] } = useQuery({
@@ -36,31 +41,47 @@ function AdminCourses() {
   });
 
   function resetForm() {
-    setForm({ slug: "", title: "", subtitle: "", description: "", level: "beginner", price_cents: 29900, lesson_count: 20, duration_minutes: 900, is_certification: false, published: true });
+    setForm({
+      slug: "", title: "", subtitle: "", description: "", level: "beginner", price_cents: 29900,
+      lesson_count: 20, duration_minutes: 900, is_certification: false, published: true,
+      cover_url: "", cert_code: "", display_status: "live", free_enroll: false,
+    });
     setEditingId(null);
     setCreating(false);
   }
 
   async function onSave(e: React.FormEvent) {
     e.preventDefault();
-    const payload = { ...form, kind, is_certification: kind === "certification" };
-    if (editingId) {
-      await supabase.from("courses").update(payload).eq("id", editingId);
-    } else {
-      await supabase.from("courses").insert(payload);
+    const payload = {
+      ...form,
+      kind,
+      is_certification: kind === "certification",
+      cover_url: form.cover_url.trim() || null,
+      cert_code: form.cert_code.trim() || null,
+    };
+    const { error } = editingId
+      ? await supabase.from("courses").update(payload).eq("id", editingId)
+      : await supabase.from("courses").insert(payload);
+    if (error) {
+      toast.error(error.message);
+      return;
     }
+    toast.success(editingId ? "Changes saved" : `${kind} created`);
     resetForm();
     qc.invalidateQueries({ queryKey: ["admin-courses", kind] });
   }
 
   async function onDelete(id: string) {
     if (!confirm("Delete this course? This cannot be undone.")) return;
-    await supabase.from("courses").delete().eq("id", id);
+    const { error } = await supabase.from("courses").delete().eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success("Deleted");
     qc.invalidateQueries({ queryKey: ["admin-courses", kind] });
   }
 
   async function togglePublish(id: string, published: boolean) {
-    await supabase.from("courses").update({ published: !published }).eq("id", id);
+    const { error } = await supabase.from("courses").update({ published: !published }).eq("id", id);
+    if (error) return toast.error(error.message);
     qc.invalidateQueries({ queryKey: ["admin-courses", kind] });
   }
 
@@ -69,6 +90,8 @@ function AdminCourses() {
       slug: c.slug, title: c.title, subtitle: c.subtitle ?? "", description: c.description ?? "",
       level: c.level as "beginner" | "intermediate" | "advanced", price_cents: c.price_cents, lesson_count: c.lesson_count, duration_minutes: c.duration_minutes,
       is_certification: c.is_certification, published: c.published,
+      cover_url: c.cover_url ?? "", cert_code: c.cert_code ?? "",
+      display_status: (c.display_status ?? "live") as DisplayStatus, free_enroll: c.free_enroll ?? false,
     });
     setEditingId(c.id);
     setCreating(true);
