@@ -264,41 +264,19 @@ function Home() {
         </div>
       </section>
 
-      {/* 9. Meet the Founder */}
-      <section className="border-t border-hairline py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div className="aspect-square rounded-2xl bg-gradient-to-br from-brand/20 via-surface to-background ring-1 ring-hairline grid place-items-center">
-              <Cpu className="size-24 text-brand/60" />
-            </div>
-            <div>
-              <span className="text-[10px] font-bold tracking-widest uppercase text-brand">Meet the Founder</span>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">Technology enthusiast &amp; AI developer</h2>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                Founded to bridge the gap between traditional cybersecurity education and the reality of
-                AI-augmented threats. Every course, lab, and certification track is designed for practitioners
-                who need to ship secure systems today — not five years from now.
-              </p>
-              <Link to="/about" className="mt-6 inline-flex rounded-md bg-surface px-5 py-2.5 text-sm font-medium text-foreground ring-1 ring-hairline hover:bg-surface-2">
-                Read the founder story
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 10. Mentor & Lead Instructor (combined) */}
+      {/* 9. Founder, Mentor & Lead Instructor (one person) */}
       <section className="border-t border-hairline bg-surface/30 py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
-              <span className="text-[10px] font-bold tracking-widest uppercase text-brand">Mentor &amp; Lead Instructor</span>
+              <span className="text-[10px] font-bold tracking-widest uppercase text-brand">Founder · Mentor &amp; Lead Instructor</span>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">{mentor.name}</h2>
               <p className="mt-1 text-sm font-medium text-brand">{mentor.headline}</p>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{mentor.bio}</p>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                Mentor and lead instructor are one and the same here — {mentor.name} authors and
-                teaches every core course, certification track, and lab on the platform.
+                Founder, mentor and lead instructor are one and the same here — {mentor.name} authors and
+                teaches every core course, certification track, and lab on the platform, bridging traditional
+                cybersecurity practice with the reality of AI-augmented threats.
               </p>
               <div className="mt-6 grid grid-cols-3 gap-3">
                 {mentor.stats.map((s) => (
@@ -308,6 +286,9 @@ function Home() {
                   </div>
                 ))}
               </div>
+              <Link to="/about" className="mt-6 inline-flex rounded-md bg-surface px-5 py-2.5 text-sm font-medium text-foreground ring-1 ring-hairline hover:bg-surface-2">
+                Read the full story
+              </Link>
             </div>
             <div className="overflow-hidden rounded-2xl ring-1 ring-hairline">
               <img src={mentor.photo_url} alt={mentor.name} className="aspect-[4/5] w-full object-cover" loading="lazy" />
