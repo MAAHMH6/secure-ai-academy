@@ -168,3 +168,17 @@ export const BLOG_POSTS = [
     excerpt: "How high-performing detection teams tune signal-to-noise without losing coverage.",
   },
 ] as const;
+/**
+ * Fixed display FX rate. Prices are stored once as `price_cents` (USD) —
+ * PKR is a computed display value only, so admins only ever edit one number.
+ */
+export const USD_TO_PKR = 278;
+
+export function formatUsd(priceCents: number) {
+  return priceCents === 0 ? "Free" : `$${(priceCents / 100).toFixed(0)}`;
+}
+
+export function formatPkr(priceCents: number) {
+  if (priceCents === 0) return "Free";
+  return `PKR ${Math.round((priceCents / 100) * USD_TO_PKR).toLocaleString("en-US")}`;
+}
