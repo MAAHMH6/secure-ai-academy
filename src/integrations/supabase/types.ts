@@ -191,7 +191,9 @@ export type Database = {
           cover_url: string | null
           created_at: string
           description: string | null
+          display_status: string
           duration_minutes: number
+          free_enroll: boolean
           id: string
           instructor_id: string | null
           is_certification: boolean
@@ -211,7 +213,9 @@ export type Database = {
           cover_url?: string | null
           created_at?: string
           description?: string | null
+          display_status?: string
           duration_minutes?: number
+          free_enroll?: boolean
           id?: string
           instructor_id?: string | null
           is_certification?: boolean
@@ -231,7 +235,9 @@ export type Database = {
           cover_url?: string | null
           created_at?: string
           description?: string | null
+          display_status?: string
           duration_minutes?: number
+          free_enroll?: boolean
           id?: string
           instructor_id?: string | null
           is_certification?: boolean
