@@ -4,6 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/site/PageShell";
 import { formatPkr, formatUsd } from "@/lib/site-data";
+import { fallbackCover } from "@/lib/course-images";
 import { z } from "zod";
 import { Clock, BookOpen, FlaskConical, Target, Award, User, Users, Star } from "lucide-react";
 
@@ -82,12 +83,16 @@ function CoursesPage() {
             {courses.map((c) => (
               <article
                 key={c.id}
-                className="group flex flex-col overflow-hidden rounded-xl bg-surface ring-1 ring-hairline transition-all hover:ring-brand/40"
+                className="card-elevated group flex flex-col overflow-hidden rounded-xl bg-surface ring-1 ring-hairline hover:ring-brand/40"
               >
-                <div className="relative aspect-video w-full bg-gradient-to-br from-brand/20 via-surface to-surface-2">
-                  {c.cover_url ? (
-                    <img src={c.cover_url} alt={c.title} className="h-full w-full object-cover" loading="lazy" />
-                  ) : null}
+                <div className="relative aspect-video w-full overflow-hidden bg-surface-2">
+                  <img
+                    src={c.cover_url || fallbackCover(c.slug || c.title)}
+                    alt={c.title}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                    loading="lazy"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent" />
                   {c.display_status !== "live" ? (
                     <span className="absolute left-3 top-3 rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand ring-1 ring-brand/30">
                       {c.display_status === "coming_soon" ? "Coming soon" : "In development"}
