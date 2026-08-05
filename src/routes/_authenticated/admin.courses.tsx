@@ -204,9 +204,14 @@ function AdminCourses() {
           <div className="rounded-xl bg-surface ring-1 ring-hairline">
             {courses.map((c) => (
               <div key={c.id} className="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto_auto] items-center gap-3 border-b border-hairline px-5 py-3 text-sm last:border-0">
-                <div>
-                  <div className="font-medium text-foreground">{c.title}</div>
-                  <div className="text-[11px] text-muted-foreground">{c.slug} · {c.kind}</div>
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="h-10 w-16 shrink-0 overflow-hidden rounded bg-background ring-1 ring-hairline">
+                    {c.cover_url ? <img src={c.cover_url} alt="" className="h-full w-full object-cover" /> : null}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="truncate font-medium text-foreground">{c.title}</div>
+                    <div className="text-[11px] text-muted-foreground">{c.slug} · {c.kind}</div>
+                  </div>
                 </div>
                 <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">{c.level}</span>
                 <span className="text-xs text-muted-foreground">{c.lesson_count} lessons</span>
