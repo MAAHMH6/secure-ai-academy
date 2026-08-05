@@ -484,6 +484,24 @@ function SectionHeader({ eyebrow, title, description }: { eyebrow: string; title
   );
 }
 
+function ShieldCheckIcon() {
+  return (
+    <span className="grid size-5 shrink-0 place-items-center rounded-full bg-brand/10 ring-1 ring-brand/25">
+      <BadgeCheck className="size-3 text-brand" />
+    </span>
+  );
+}
+
+function UnusedSectionHeader({ eyebrow, title, description }: { eyebrow: string; title: string; description?: string }) {
+  return (
+    <div className="flex flex-col gap-3">
+      <span className="text-[10px] font-bold tracking-widest uppercase text-brand">{eyebrow}</span>
+      <h2 className="max-w-[40ch] text-balance text-3xl font-semibold tracking-tight text-foreground">{title}</h2>
+      {description ? <p className="max-w-[60ch] text-sm text-muted-foreground">{description}</p> : null}
+    </div>
+  );
+}
+
 function DashCard({ icon: Icon, label, value }: { icon: React.ComponentType<{ className?: string }>; label: string; value: string }) {
   return (
     <div className="rounded-xl bg-background/60 p-5 ring-1 ring-hairline">
