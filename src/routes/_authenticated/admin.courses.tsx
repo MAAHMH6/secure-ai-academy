@@ -4,8 +4,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell, PageHeader } from "@/components/admin/AdminPage";
 import { formatPkr } from "@/lib/site-data";
+import { fileToResizedDataUrl } from "@/lib/image-upload";
 import { toast } from "sonner";
-import { Plus, Trash2, Eye, EyeOff, Edit3 } from "lucide-react";
+import { Plus, Trash2, Eye, EyeOff, Edit3, Upload, ImageIcon } from "lucide-react";
 
 type Kind = "course" | "certification" | "masterclass";
 type DisplayStatus = "live" | "coming_soon" | "in_development";
@@ -137,7 +138,50 @@ function AdminCourses() {
               </div>
               <Input label="Lessons" type="number" value={String(form.lesson_count)} onChange={(v) => setForm({ ...form, lesson_count: Number(v) })} />
               <Input label="Duration (min)" type="number" value={String(form.duration_minutes)} onChange={(v) => setForm({ ...form, duration_minutes: Number(v) })} />
-              <Input label="Thumbnail image URL" value={form.cover_url} onChange={(v) => setForm({ ...form, cover_url: v })} />
+              <div className="md:col-span-2">
+                <label className="text-xs font-medium text-muted-foreground">Thumbnail</label>
+                <div className="mt-1 flex flex-wrap items-center gap-3">
+                  <div className="flex h-16 w-28 shrink-0 items-center justify-center overflow-hidden rounded-md bg-background ring-1 ring-hairline">
+                    {form.cover_url ? (
+                      <img src={form.cover_url} alt="Thumbnail preview" className="h-full w-full object-cover" />
+                    ) : (
+                      <ImageIcon className="size-4 text-muted-foreground" />
+                    )}
+                  </div>
+                  <label className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-background px-3 py-2 text-sm text-foreground ring-1 ring-hairline hover:ring-brand">
+                    <Upload className="size-4" /> Upload image
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        e.target.value = "";
+                        if (!file) return;
+                        try {
+                          setForm((f) => ({ ...f, cover_url: "" }));
+                          const url = await fileToResizedDataUrl(file);
+                          setForm((f) => ({ ...f, cover_url: url }));
+                          toast.success("Thumbnail ready — save to apply");
+                        } catch (err) {
+                          toast.error(err instanceof Error ? err.message : "Upload failed");
+                        }
+                      }}
+                    />
+                  </label>
+                  <input
+                    value={form.cover_url.startsWith("data:") ? "" : form.cover_url}
+                    placeholder="…or paste an image URL"
+                    onChange={(e) => setForm({ ...form, cover_url: e.target.value })}
+                    className="min-w-[12rem] flex-1 rounded-md bg-background px-3 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand"
+                  />
+                  {form.cover_url ? (
+                    <button type="button" onClick={() => setForm({ ...form, cover_url: "" })} className="rounded-md px-2 py-1 text-xs text-muted-foreground hover:text-destructive">
+                      Remove
+                    </button>
+                  ) : null}
+                </div>
+              </div>
               {kind === "certification" ? (
                 <Input label="Certification code (e.g. CISSP)" value={form.cert_code} onChange={(v) => setForm({ ...form, cert_code: v })} />
               ) : null}
@@ -160,9 +204,14 @@ function AdminCourses() {
           <div className="rounded-xl bg-surface ring-1 ring-hairline">
             {courses.map((c) => (
               <div key={c.id} className="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto_auto] items-center gap-3 border-b border-hairline px-5 py-3 text-sm last:border-0">
-                <div>
-                  <div className="font-medium text-foreground">{c.title}</div>
-                  <div className="text-[11px] text-muted-foreground">{c.slug} · {c.kind}</div>
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="h-10 w-16 shrink-0 overflow-hidden rounded bg-background ring-1 ring-hairline">
+                    {c.cover_url ? <img src={c.cover_url} alt="" className="h-full w-full object-cover" /> : null}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="truncate font-medium text-foreground">{c.title}</div>
+                    <div className="text-[11px] text-muted-foreground">{c.slug} · {c.kind}</div>
+                  </div>
                 </div>
                 <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">{c.level}</span>
                 <span className="text-xs text-muted-foreground">{c.lesson_count} lessons</span>
