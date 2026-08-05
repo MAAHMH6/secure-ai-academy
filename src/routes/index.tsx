@@ -11,6 +11,9 @@ import {
   ChevronRight, Zap, GraduationCap, Rocket, Briefcase,
 } from "lucide-react";
 import { useState } from "react";
+import heroSoc from "@/assets/hero-soc.jpg";
+import masterclassImg from "@/assets/masterclass.jpg";
+import { fallbackCover } from "@/lib/course-images";
 
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   "cybersecurity-fundamentals": Shield, "network-security": Network, "email-security": Mail,
@@ -51,26 +54,50 @@ function Home() {
   return (
     <PageShell>
       {/* 1. Hero */}
-      <section className="relative border-b border-hairline py-24 lg:py-32">
-        <div className="pointer-events-none absolute inset-0 opacity-60 [background:radial-gradient(circle_at_20%_10%,color-mix(in_oklab,var(--brand)_18%,transparent)_0%,transparent_45%),radial-gradient(circle_at_80%_0%,color-mix(in_oklab,var(--brand)_10%,transparent)_0%,transparent_50%)]" />
-        <div className="relative mx-auto max-w-7xl px-6">
-          <span className="inline-flex w-fit items-center rounded-full bg-brand/10 px-3 py-1 text-[11px] font-medium tracking-wider text-brand uppercase ring-1 ring-brand/20">
-            Defensive Intelligence · v1.0
-          </span>
-          <h1 className="mt-6 max-w-[20ch] text-balance text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-7xl">
-            Master Cybersecurity, Cloud &amp; AI Skills for the Future.
-          </h1>
-          <p className="mt-5 max-w-[56ch] text-pretty text-base leading-relaxed text-muted-foreground lg:text-lg">
-            Advanced offensive and defensive security training designed for the age of autonomous
-            threats. Start with our free career masterclass.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/courses/$slug" params={{ slug: "cybersecurity-career-masterclass" }} className="rounded-md bg-brand px-6 py-2.5 text-sm font-medium text-brand-foreground ring-1 ring-brand">
-              Reserve Free Seat
-            </Link>
-            <Link to="/courses" className="rounded-md bg-surface px-6 py-2.5 text-sm font-medium text-foreground ring-1 ring-hairline transition-colors hover:bg-surface-2">
-              Explore Courses
-            </Link>
+      <section className="relative border-b border-hairline py-20 lg:py-28">
+        <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(circle_at_18%_8%,color-mix(in_oklab,var(--brand)_14%,transparent)_0%,transparent_45%),radial-gradient(circle_at_82%_0%,color-mix(in_oklab,var(--brand)_8%,transparent)_0%,transparent_50%)]" />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="reveal">
+            <span className="inline-flex w-fit items-center rounded-full bg-brand/10 px-3 py-1 text-[11px] font-medium tracking-wider text-brand uppercase ring-1 ring-brand/20">
+              Defensive Intelligence · v1.0
+            </span>
+            <h1 className="mt-6 max-w-[18ch] text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+              Master Cybersecurity, Cloud &amp; AI Skills for the Future.
+            </h1>
+            <p className="mt-6 max-w-[52ch] text-pretty text-base leading-relaxed text-muted-foreground lg:text-lg">
+              Advanced offensive and defensive security training designed for the age of autonomous
+              threats. Start with our free career masterclass.
+            </p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Link to="/courses/$slug" params={{ slug: "cybersecurity-career-masterclass" }} className="rounded-md bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground ring-1 ring-brand transition-colors hover:bg-brand/90">
+                Reserve Free Seat
+              </Link>
+              <Link to="/courses" className="rounded-md bg-surface px-6 py-3 text-sm font-medium text-foreground ring-1 ring-hairline transition-colors hover:bg-surface-2">
+                Explore Courses
+              </Link>
+            </div>
+            <ul className="mt-10 grid gap-x-6 gap-y-3 border-t border-hairline pt-7 sm:grid-cols-2">
+              {[
+                "Practical cybersecurity training",
+                "Industry-led learning",
+                "Career-focused programs",
+                "Professional certification prep",
+              ].map((t) => (
+                <li key={t} className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                  <ShieldCheckIcon /> {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="reveal relative overflow-hidden rounded-2xl ring-1 ring-hairline [animation-delay:120ms]">
+            <img
+              src={heroSoc}
+              alt="Enterprise security analysts monitoring threat intelligence dashboards in a security operations center"
+              width={1408}
+              height={1056}
+              className="h-full w-full object-cover"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent" />
           </div>
         </div>
       </section>
@@ -109,10 +136,18 @@ function Home() {
                   </Link>
                 </div>
               </div>
-              <div className="relative aspect-video overflow-hidden rounded-xl bg-background/60 ring-1 ring-hairline">
-                <div className="absolute inset-0 [background:radial-gradient(circle_at_50%_50%,color-mix(in_oklab,var(--brand)_25%,transparent)_0%,transparent_60%)]" />
+              <div className="group relative aspect-video overflow-hidden rounded-xl bg-background/60 ring-1 ring-hairline">
+                <img
+                  src={masterclassImg}
+                  alt="Cybersecurity instructor leading a professional enterprise training session"
+                  width={1200}
+                  height={800}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/40 to-background/10" />
                 <div className="absolute inset-0 grid place-items-center">
-                  <div className="grid size-20 place-items-center rounded-full bg-brand ring-8 ring-brand/20">
+                  <div className="grid size-20 place-items-center rounded-full bg-brand ring-8 ring-brand/20 transition-transform duration-300 group-hover:scale-105">
                     <PlayCircle className="size-10 text-brand-foreground" />
                   </div>
                 </div>
