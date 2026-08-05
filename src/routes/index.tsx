@@ -589,10 +589,23 @@ function FAQ() {
         <SectionHeader eyebrow="FAQ" title="Answers to what people ask most" />
         <div className="mt-10 divide-y divide-hairline rounded-xl bg-surface ring-1 ring-hairline">
           {items.map((it, i) => (
-            <button key={it.q} onClick={() => setOpen(open === i ? -1 : i)} className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+            <button
+              key={it.q}
+              onClick={() => setOpen(open === i ? -1 : i)}
+              aria-expanded={open === i}
+              className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-surface-2/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand"
+            >
               <div className="flex-1">
                 <div className="text-sm font-semibold text-foreground">{it.q}</div>
-                {open === i ? <p className="mt-2 text-sm text-muted-foreground">{it.a}</p> : null}
+                <div
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                    open === i ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <p className="overflow-hidden text-sm text-muted-foreground">
+                    <span className="block pt-2">{it.a}</span>
+                  </p>
+                </div>
               </div>
               <ChevronRight className={`size-4 shrink-0 text-muted-foreground transition-transform ${open === i ? "rotate-90 text-brand" : ""}`} />
             </button>
