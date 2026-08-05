@@ -469,18 +469,58 @@ function Home() {
       <FAQ />
 
       {/* 16. Newsletter */}
-      <section className="border-t border-hairline bg-surface/30 py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <MessagesSquare className="mx-auto size-6 text-brand" />
-          <h2 className="mt-4 text-2xl font-semibold tracking-tight text-foreground">Weekly threat briefings, straight to your inbox</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Curated intel on breaches, new CVEs, and AI-security research — free.</p>
-          <form className="mt-6 flex flex-col gap-3 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
-            <input type="email" required placeholder="you@company.com" className="flex-1 rounded-md bg-background px-4 py-2.5 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand" />
-            <button type="submit" className="rounded-md bg-brand px-6 py-2.5 text-sm font-medium text-brand-foreground ring-1 ring-brand">Subscribe</button>
-          </form>
-        </div>
-      </section>
+      <Newsletter />
     </PageShell>
+  );
+}
+
+function Newsletter() {
+  const [email, setEmail] = useState("");
+  const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return setState("error");
+    setState("loading");
+    await new Promise((r) => setTimeout(r, 600));
+    setState("done");
+  }
+
+  return (
+    <section className="border-t border-hairline bg-surface/30 py-24">
+      <div className="mx-auto max-w-3xl px-6 text-center">
+        <MessagesSquare className="mx-auto size-6 text-brand" />
+        <h2 className="mt-4 text-2xl font-semibold tracking-tight text-foreground">Stay informed about cybersecurity</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Weekly threat briefings, industry updates, learning resources, and new course announcements — free.
+        </p>
+        <form className="mt-6 flex flex-col gap-3 sm:flex-row" onSubmit={submit} noValidate>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (state === "error") setState("idle");
+            }}
+            placeholder="you@company.com"
+            aria-label="Email address"
+            className="flex-1 rounded-md bg-background px-4 py-2.5 text-sm text-foreground ring-1 ring-hairline outline-none transition-shadow focus:ring-brand"
+          />
+          <button
+            type="submit"
+            disabled={state === "loading"}
+            className="rounded-md bg-brand px-6 py-2.5 text-sm font-medium text-brand-foreground ring-1 ring-brand transition-colors hover:bg-brand/90 disabled:opacity-60"
+          >
+            {state === "loading" ? "Subscribing…" : "Subscribe"}
+          </button>
+        </form>
+        <div aria-live="polite" className="mt-3 text-xs">
+          {state === "error" ? <span className="text-destructive">Please enter a valid email address.</span> : null}
+          {state === "done" ? <span className="text-brand">You're subscribed — check your inbox for the first briefing.</span> : null}
+        </div>
+      </div>
+    </section>
   );
 }
 
