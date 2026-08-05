@@ -47,7 +47,7 @@ function Home() {
     queryKey: ["home-courses"],
     queryFn: async () => (await supabase
       .from("courses")
-      .select("id, slug, title, subtitle, price_cents, lesson_count, level, is_certification")
+      .select("id, slug, title, subtitle, price_cents, lesson_count, level, is_certification, cover_url")
       .eq("published", true).limit(6)).data ?? [],
   });
 
@@ -183,8 +183,10 @@ function Home() {
               { icon: Award, t: "Verified Certificates", d: "Course certificates plus full prep for CISSP, CISM, CEH, CCSP and more." },
               { icon: Users, t: "Mentor-Led", d: "Curriculum guided by a senior consultant with 25+ years of enterprise experience." },
             ].map((f) => (
-              <div key={f.t} className="rounded-xl bg-surface p-6 ring-1 ring-hairline">
-                <f.icon className="size-6 text-brand" />
+              <div key={f.t} className="card-elevated rounded-xl bg-surface p-6 ring-1 ring-hairline hover:ring-brand/40">
+                <span className="grid size-10 place-items-center rounded-lg bg-brand/10 ring-1 ring-brand/20">
+                  <f.icon className="size-5 text-brand" />
+                </span>
                 <h3 className="mt-4 text-base font-semibold text-foreground">{f.t}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{f.d}</p>
               </div>
@@ -226,8 +228,16 @@ function Home() {
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {courses.map((c) => (
-              <article key={c.id} className="group flex flex-col overflow-hidden rounded-xl bg-surface ring-1 ring-hairline transition-all hover:ring-brand/40">
-                <div className="aspect-video w-full bg-gradient-to-br from-brand/20 via-surface to-surface-2" />
+              <article key={c.id} className="card-elevated group flex flex-col overflow-hidden rounded-xl bg-surface ring-1 ring-hairline hover:ring-brand/40">
+                <div className="relative aspect-video w-full overflow-hidden bg-surface-2">
+                  <img
+                    src={c.cover_url || fallbackCover(c.slug || c.title)}
+                    alt={c.title}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent" />
+                </div>
                 <div className="flex flex-1 flex-col gap-3 p-6">
                   <div className="flex items-center gap-2 text-[10px] font-medium">
                     <span className="font-bold tracking-wider text-brand uppercase">{c.is_certification ? "Certification" : c.level}</span>
