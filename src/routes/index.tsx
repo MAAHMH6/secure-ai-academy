@@ -94,57 +94,34 @@ function Home() {
 
       {/* 2. Free Masterclass — headline lead-gen */}
       <section className="border-b border-hairline py-24">
-        <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-4xl px-6 text-center">
           <div className="rounded-2xl border border-brand/40 bg-gradient-to-br from-brand/15 via-surface to-background p-8 lg:p-14 shadow-[0_0_80px_-30px_var(--brand)]">
-            <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-              <div>
-                <div className="flex flex-wrap gap-2">
-                  {["FREE", "60 Minutes", "Recorded Access", "Beginner Friendly", "Career Roadmap"].map((b) => (
-                    <span key={b} className="rounded-full bg-brand/15 px-3 py-1 text-[10px] font-bold tracking-widest uppercase text-brand ring-1 ring-brand/30">{b}</span>
-                  ))}
-                </div>
-                <h2 className="mt-5 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                  The Cybersecurity Career Masterclass
-                </h2>
-                <p className="mt-4 max-w-[60ch] text-sm leading-relaxed text-muted-foreground lg:text-base">
-                  A hand-crafted 60-minute masterclass covering global cyber demand, real career paths,
-                  the beginner's roadmap, and how AI is reshaping the industry. Built to help thousands
-                  break into cybersecurity — no cost, no catch.
-                </p>
-                <ul className="mt-6 grid gap-2 text-sm text-foreground/90 sm:grid-cols-2">
-                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Global demand & salaries</li>
-                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Career paths that hire beginners</li>
-                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> AI vs. defenders in 2026</li>
-                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> A guided learning roadmap</li>
-                </ul>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Link to="/courses/$slug" params={{ slug: "cybersecurity-career-masterclass" }} className="rounded-md bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground ring-1 ring-brand">
-                    Reserve Free Seat
-                  </Link>
-                  <Link to="/pricing" className="rounded-md bg-background/60 px-6 py-3 text-sm font-medium text-foreground ring-1 ring-hairline hover:bg-surface-2">
-                    View pricing
-                  </Link>
-                </div>
-              </div>
-              <div className="group relative aspect-video overflow-hidden rounded-xl bg-background/60 ring-1 ring-hairline">
-                <img
-                  src={masterclassImg}
-                  alt="Cybersecurity instructor leading a professional enterprise training session"
-                  width={1200}
-                  height={800}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/40 to-background/10" />
-                <div className="absolute inset-0 grid place-items-center">
-                  <div className="grid size-20 place-items-center rounded-full bg-brand ring-8 ring-brand/20 transition-transform duration-300 group-hover:scale-105">
-                    <PlayCircle className="size-10 text-brand-foreground" />
-                  </div>
-                </div>
-                <div className="absolute bottom-4 left-4 rounded-md bg-background/80 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-brand ring-1 ring-brand/30 backdrop-blur">
-                  Live preview · Reserve to watch
-                </div>
-              </div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {["FREE", "60 Minutes", "Recorded Access", "Beginner Friendly", "Career Roadmap"].map((b) => (
+                <span key={b} className="rounded-full bg-brand/15 px-3 py-1 text-[10px] font-bold tracking-widest uppercase text-brand ring-1 ring-brand/30">{b}</span>
+              ))}
+            </div>
+            <h2 className="mt-5 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+              The Cybersecurity Career Masterclass
+            </h2>
+            <p className="mx-auto mt-4 max-w-[60ch] text-sm leading-relaxed text-muted-foreground lg:text-base">
+              A hand-crafted 60-minute masterclass covering global cyber demand, real career paths,
+              the beginner's roadmap, and how AI is reshaping the industry. Built to help thousands
+              break into cybersecurity — no cost, no catch.
+            </p>
+            <ul className="mx-auto mt-6 grid max-w-2xl gap-2 text-left text-sm text-foreground/90 sm:grid-cols-2">
+              <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Global demand & salaries</li>
+              <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Career paths that hire beginners</li>
+              <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> AI vs. defenders in 2026</li>
+              <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> A guided learning roadmap</li>
+            </ul>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Link to="/courses/$slug" params={{ slug: "cybersecurity-career-masterclass" }} className="rounded-md bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground ring-1 ring-brand">
+                Reserve Free Seat
+              </Link>
+              <Link to="/pricing" className="rounded-md bg-background/60 px-6 py-3 text-sm font-medium text-foreground ring-1 ring-hairline hover:bg-surface-2">
+                View pricing
+              </Link>
             </div>
           </div>
         </div>
