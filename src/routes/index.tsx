@@ -7,12 +7,10 @@ import {
   Shield, Cloud, Terminal, KeyRound, Code2, Network, Mail, Flame, Laptop,
   Database, Braces, GitBranch, Activity, Bot, Sparkles, BrainCircuit, BadgeCheck,
   Award, ClipboardCheck, Bug, Server, Waypoints, Star, Users, Clock, BookOpen,
-  Target, FlaskConical, PlayCircle, Calendar, Trophy, TrendingUp, MessagesSquare,
+  Target, FlaskConical, Calendar, Trophy, TrendingUp, MessagesSquare,
   ChevronRight, Zap, GraduationCap, Rocket, Briefcase,
 } from "lucide-react";
 import { useState } from "react";
-import heroSoc from "@/assets/hero-soc.jpg";
-import masterclassImg from "@/assets/masterclass.jpg";
 import { fallbackCover } from "@/lib/course-images";
 
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
