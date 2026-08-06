@@ -7,12 +7,10 @@ import {
   Shield, Cloud, Terminal, KeyRound, Code2, Network, Mail, Flame, Laptop,
   Database, Braces, GitBranch, Activity, Bot, Sparkles, BrainCircuit, BadgeCheck,
   Award, ClipboardCheck, Bug, Server, Waypoints, Star, Users, Clock, BookOpen,
-  Target, FlaskConical, PlayCircle, Calendar, Trophy, TrendingUp, MessagesSquare,
+  Target, FlaskConical, Calendar, Trophy, TrendingUp, MessagesSquare,
   ChevronRight, Zap, GraduationCap, Rocket, Briefcase,
 } from "lucide-react";
 import { useState } from "react";
-import heroSoc from "@/assets/hero-soc.jpg";
-import masterclassImg from "@/assets/masterclass.jpg";
 import { fallbackCover } from "@/lib/course-images";
 
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -56,19 +54,19 @@ function Home() {
       {/* 1. Hero */}
       <section className="relative border-b border-hairline py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(circle_at_18%_8%,color-mix(in_oklab,var(--brand)_14%,transparent)_0%,transparent_45%),radial-gradient(circle_at_82%_0%,color-mix(in_oklab,var(--brand)_8%,transparent)_0%,transparent_50%)]" />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="relative mx-auto max-w-4xl px-6 text-center">
           <div className="reveal">
             <span className="inline-flex w-fit items-center rounded-full bg-brand/10 px-3 py-1 text-[11px] font-medium tracking-wider text-brand uppercase ring-1 ring-brand/20">
               Defensive Intelligence · v1.0
             </span>
-            <h1 className="mt-6 max-w-[18ch] text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               Master Cybersecurity, Cloud &amp; AI Skills for the Future.
             </h1>
-            <p className="mt-6 max-w-[52ch] text-pretty text-base leading-relaxed text-muted-foreground lg:text-lg">
+            <p className="mx-auto mt-6 max-w-[52ch] text-pretty text-base leading-relaxed text-muted-foreground lg:text-lg">
               Advanced offensive and defensive security training designed for the age of autonomous
               threats. Start with our free career masterclass.
             </p>
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className="mt-9 flex flex-wrap justify-center gap-3">
               <Link to="/courses/$slug" params={{ slug: "cybersecurity-career-masterclass" }} className="rounded-md bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground ring-1 ring-brand transition-colors hover:bg-brand/90">
                 Reserve Free Seat
               </Link>
@@ -76,85 +74,52 @@ function Home() {
                 Explore Courses
               </Link>
             </div>
-            <ul className="mt-10 grid gap-x-6 gap-y-3 border-t border-hairline pt-7 sm:grid-cols-2">
+            <ul className="mx-auto mt-10 grid max-w-2xl gap-x-6 gap-y-3 border-t border-hairline pt-7 sm:grid-cols-2">
               {[
                 "Practical cybersecurity training",
                 "Industry-led learning",
                 "Career-focused programs",
                 "Professional certification prep",
               ].map((t) => (
-                <li key={t} className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                <li key={t} className="flex items-center justify-center gap-2.5 text-sm text-muted-foreground">
                   <ShieldCheckIcon /> {t}
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="reveal relative overflow-hidden rounded-2xl ring-1 ring-hairline [animation-delay:120ms]">
-            <img
-              src={heroSoc}
-              alt="Enterprise security analysts monitoring threat intelligence dashboards in a security operations center"
-              width={1408}
-              height={1056}
-              className="h-full w-full object-cover"
-            />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent" />
           </div>
         </div>
       </section>
 
       {/* 2. Free Masterclass — headline lead-gen */}
       <section className="border-b border-hairline py-24">
-        <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-4xl px-6 text-center">
           <div className="rounded-2xl border border-brand/40 bg-gradient-to-br from-brand/15 via-surface to-background p-8 lg:p-14 shadow-[0_0_80px_-30px_var(--brand)]">
-            <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-              <div>
-                <div className="flex flex-wrap gap-2">
-                  {["FREE", "60 Minutes", "Recorded Access", "Beginner Friendly", "Career Roadmap"].map((b) => (
-                    <span key={b} className="rounded-full bg-brand/15 px-3 py-1 text-[10px] font-bold tracking-widest uppercase text-brand ring-1 ring-brand/30">{b}</span>
-                  ))}
-                </div>
-                <h2 className="mt-5 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                  The Cybersecurity Career Masterclass
-                </h2>
-                <p className="mt-4 max-w-[60ch] text-sm leading-relaxed text-muted-foreground lg:text-base">
-                  A hand-crafted 60-minute masterclass covering global cyber demand, real career paths,
-                  the beginner's roadmap, and how AI is reshaping the industry. Built to help thousands
-                  break into cybersecurity — no cost, no catch.
-                </p>
-                <ul className="mt-6 grid gap-2 text-sm text-foreground/90 sm:grid-cols-2">
-                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Global demand & salaries</li>
-                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Career paths that hire beginners</li>
-                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> AI vs. defenders in 2026</li>
-                  <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> A guided learning roadmap</li>
-                </ul>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Link to="/courses/$slug" params={{ slug: "cybersecurity-career-masterclass" }} className="rounded-md bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground ring-1 ring-brand">
-                    Reserve Free Seat
-                  </Link>
-                  <Link to="/pricing" className="rounded-md bg-background/60 px-6 py-3 text-sm font-medium text-foreground ring-1 ring-hairline hover:bg-surface-2">
-                    View pricing
-                  </Link>
-                </div>
-              </div>
-              <div className="group relative aspect-video overflow-hidden rounded-xl bg-background/60 ring-1 ring-hairline">
-                <img
-                  src={masterclassImg}
-                  alt="Cybersecurity instructor leading a professional enterprise training session"
-                  width={1200}
-                  height={800}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/40 to-background/10" />
-                <div className="absolute inset-0 grid place-items-center">
-                  <div className="grid size-20 place-items-center rounded-full bg-brand ring-8 ring-brand/20 transition-transform duration-300 group-hover:scale-105">
-                    <PlayCircle className="size-10 text-brand-foreground" />
-                  </div>
-                </div>
-                <div className="absolute bottom-4 left-4 rounded-md bg-background/80 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-brand ring-1 ring-brand/30 backdrop-blur">
-                  Live preview · Reserve to watch
-                </div>
-              </div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {["FREE", "60 Minutes", "Recorded Access", "Beginner Friendly", "Career Roadmap"].map((b) => (
+                <span key={b} className="rounded-full bg-brand/15 px-3 py-1 text-[10px] font-bold tracking-widest uppercase text-brand ring-1 ring-brand/30">{b}</span>
+              ))}
+            </div>
+            <h2 className="mt-5 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+              The Cybersecurity Career Masterclass
+            </h2>
+            <p className="mx-auto mt-4 max-w-[60ch] text-sm leading-relaxed text-muted-foreground lg:text-base">
+              A hand-crafted 60-minute masterclass covering global cyber demand, real career paths,
+              the beginner's roadmap, and how AI is reshaping the industry. Built to help thousands
+              break into cybersecurity — no cost, no catch.
+            </p>
+            <ul className="mx-auto mt-6 grid max-w-2xl gap-2 text-left text-sm text-foreground/90 sm:grid-cols-2">
+              <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Global demand & salaries</li>
+              <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Career paths that hire beginners</li>
+              <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> AI vs. defenders in 2026</li>
+              <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> A guided learning roadmap</li>
+            </ul>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Link to="/courses/$slug" params={{ slug: "cybersecurity-career-masterclass" }} className="rounded-md bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground ring-1 ring-brand">
+                Reserve Free Seat
+              </Link>
+              <Link to="/pricing" className="rounded-md bg-background/60 px-6 py-3 text-sm font-medium text-foreground ring-1 ring-hairline hover:bg-surface-2">
+                View pricing
+              </Link>
             </div>
           </div>
         </div>
