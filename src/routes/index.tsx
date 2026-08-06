@@ -48,6 +48,15 @@ function Home() {
       .select("id, slug, title, subtitle, price_cents, lesson_count, level, is_certification, cover_url")
       .eq("published", true).limit(6)).data ?? [],
   });
+  const { data: masterclass } = useQuery({
+    queryKey: ["home-masterclass-cover"],
+    queryFn: async () =>
+      (await supabase
+        .from("courses")
+        .select("cover_url")
+        .eq("slug", "cybersecurity-career-masterclass")
+        .maybeSingle()).data,
+  });
 
   return (
     <PageShell>
@@ -107,6 +116,16 @@ function Home() {
               the beginner's roadmap, and how AI is reshaping the industry. Built to help thousands
               break into cybersecurity — no cost, no catch.
             </p>
+            <div className="mx-auto mt-8 aspect-video w-full max-w-2xl overflow-hidden rounded-xl border border-dashed border-brand/40 bg-background/40">
+              {masterclass?.cover_url ? (
+                <img src={masterclass.cover_url} alt="Cybersecurity Career Masterclass" className="h-full w-full object-cover" loading="lazy" />
+              ) : (
+                <div className="flex h-full w-full flex-col items-center justify-center gap-1 text-center">
+                  <span className="text-xs font-medium text-muted-foreground">Masterclass image</span>
+                  <span className="text-[11px] text-muted-foreground/70">Upload it in Admin → Masterclasses → Thumbnail</span>
+                </div>
+              )}
+            </div>
             <ul className="mx-auto mt-6 grid max-w-2xl gap-2 text-left text-sm text-foreground/90 sm:grid-cols-2">
               <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Global demand & salaries</li>
               <li className="flex items-start gap-2"><span className="mt-1 size-1.5 rounded-full bg-brand" /> Career paths that hire beginners</li>
