@@ -18,12 +18,12 @@ export function SiteFooter() {
             training built for the age of autonomous threats.
           </p>
           <ul className="mt-6 space-y-2 text-xs text-muted-foreground">
-            <li className="flex items-center gap-2"><Mail className="size-3.5 text-brand" /> support@aisecurityhub.com</li>
-            <li className="flex items-center gap-2"><Mail className="size-3.5 text-brand" /> enterprise@aisecurityhub.com</li>
-            <li className="flex items-center gap-2"><Phone className="size-3.5 text-brand" /> +92 308 8444451 (Call)</li>
+            <li className="flex items-center gap-2"><Mail className="size-3.5 text-brand" /> support@aisecurityhub.co</li>
+            <li className="flex items-center gap-2"><Mail className="size-3.5 text-brand" /> enterprise@aisecurityhub.co</li>
+            <li className="flex items-center gap-2"><Phone className="size-3.5 text-brand" /> +1 307-533-5472 (Call)</li>
             <li className="flex items-center gap-2">
               <MessageSquare className="size-3.5 text-brand" />
-              <a href="https://wa.me/923088444451" className="hover:text-foreground">+92 308 8444451 (WhatsApp)</a>
+              <a href="https://wa.me/13075335472" className="hover:text-foreground">+1 307-533-5472 (WhatsApp)</a>
             </li>
           </ul>
           <div className="mt-6 flex gap-3">
