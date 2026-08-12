@@ -48,11 +48,11 @@ function ContactPage() {
   }
 
   const contactCards = [
-    { icon: Mail, label: "Enterprise Sales", value: "enterprise@aisecurityhub.com", href: "mailto:enterprise@aisecurityhub.com" },
-    { icon: Mail, label: "Learner Support", value: "support@aisecurityhub.com", href: "mailto:support@aisecurityhub.com" },
-    { icon: Mail, label: "Founder", value: "muhammedshams911@gmail.com", href: "mailto:muhammedshams911@gmail.com" },
-    { icon: Phone, label: "Call Us", value: "+92 308 8444451", href: "tel:+923088444451" },
-    { icon: MessageSquare, label: "WhatsApp", value: "+92 308 8444451", href: "https://wa.me/923088444451" },
+    { icon: Mail, label: "Enterprise Sales", value: "enterprise@aisecurityhub.co", href: "mailto:enterprise@aisecurityhub.co" },
+    { icon: Mail, label: "Learner Support", value: "support@aisecurityhub.co", href: "mailto:support@aisecurityhub.co" },
+    { icon: Mail, label: "Founder", value: "founder@aisecurityhub.co", href: "mailto:founder@aisecurityhub.co" },
+    { icon: Phone, label: "Call Us", value: "+1 307-533-5472", href: "tel:+13075335472" },
+    { icon: MessageSquare, label: "WhatsApp", value: "+1 307-533-5472", href: "https://wa.me/13075335472" },
     { icon: Clock, label: "Response SLA", value: "< 1 business day", href: "#" },
   ];
   const inquiryTypes = ["General question", "Enterprise / Team plan", "Certification track", "Partnership", "Media / Press"];
