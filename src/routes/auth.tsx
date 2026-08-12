@@ -159,7 +159,7 @@ function AuthPage() {
                     <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-28 rounded-md bg-background px-2 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand">
                       {COUNTRIES.map((c) => <option key={c.code} value={c.code}>{c.code} {c.name}</option>)}
                     </select>
-                    <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="3088444451" className="flex-1 rounded-md bg-background px-3 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand" />
+                    <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="" className="flex-1 rounded-md bg-background px-3 py-2 text-sm text-foreground ring-1 ring-hairline outline-none focus:ring-brand" />
                   </div>
                 </div>
                 <div>
