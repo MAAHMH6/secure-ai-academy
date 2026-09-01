@@ -86,7 +86,7 @@ function AdminHome() {
           </div>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Link to="/admin/courses" className="group flex items-start gap-3 rounded-xl bg-surface p-5 ring-1 ring-hairline hover:ring-brand/40">
+            <Link to="/admin/courses" search={{ kind: "course" }} className="group flex items-start gap-3 rounded-xl bg-surface p-5 ring-1 ring-hairline hover:ring-brand/40">
               <BookOpen className="size-5 text-brand" />
               <div>
                 <div className="text-sm font-semibold text-foreground group-hover:text-brand">Manage courses & certifications</div>
@@ -162,7 +162,7 @@ function AdminHome() {
           <div className="mt-12 rounded-xl bg-surface ring-1 ring-hairline">
             <div className="flex items-center justify-between border-b border-hairline p-6">
               <h2 className="text-base font-semibold text-foreground">Recent catalog</h2>
-              <Link to="/admin/courses" className="text-xs font-medium text-brand hover:underline">Manage all →</Link>
+              <Link to="/admin/courses" search={{ kind: "course" }} className="text-xs font-medium text-brand hover:underline">Manage all →</Link>
             </div>
             <div className="divide-y divide-hairline">
               {recentCourses.map((c) => (

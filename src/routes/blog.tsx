@@ -37,7 +37,7 @@ function BlogPage() {
           {posts.map((p) => (
             <Link
               key={p.id}
-              to="/blog_/$slug"
+              to="/blog/$slug"
               params={{ slug: p.slug }}
               className="group flex flex-col rounded-xl bg-surface p-8 ring-1 ring-hairline transition-colors hover:ring-brand/40"
             >
