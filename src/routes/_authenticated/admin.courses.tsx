@@ -25,12 +25,12 @@ function AdminCourses() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<{
     slug: string; title: string; subtitle: string; description: string;
-    level: "beginner" | "intermediate" | "advanced"; price_cents: number; lesson_count: number; duration_minutes: number;
+    level: "beginner" | "intermediate" | "advanced"; price_cents: number; lesson_count: number; duration_minutes: number; labs_count: number;
     is_certification: boolean; published: boolean; cover_url: string; cert_code: string;
     display_status: DisplayStatus; free_enroll: boolean;
   }>({
     slug: "", title: "", subtitle: "", description: "",
-    level: "beginner", price_cents: 29900, lesson_count: 20, duration_minutes: 900,
+    level: "beginner", price_cents: 29900, lesson_count: 20, duration_minutes: 900, labs_count: 0,
     is_certification: false, published: true, cover_url: "", cert_code: "",
     display_status: "live", free_enroll: false,
   });
@@ -44,7 +44,7 @@ function AdminCourses() {
   function resetForm() {
     setForm({
       slug: "", title: "", subtitle: "", description: "", level: "beginner", price_cents: 29900,
-      lesson_count: 20, duration_minutes: 900, is_certification: false, published: true,
+      lesson_count: 20, duration_minutes: 900, labs_count: 0, is_certification: false, published: true,
       cover_url: "", cert_code: "", display_status: "live", free_enroll: false,
     });
     setEditingId(null);
@@ -89,7 +89,7 @@ function AdminCourses() {
   function startEdit(c: typeof courses[number]) {
     setForm({
       slug: c.slug, title: c.title, subtitle: c.subtitle ?? "", description: c.description ?? "",
-      level: c.level as "beginner" | "intermediate" | "advanced", price_cents: c.price_cents, lesson_count: c.lesson_count, duration_minutes: c.duration_minutes,
+      level: c.level as "beginner" | "intermediate" | "advanced", price_cents: c.price_cents, lesson_count: c.lesson_count, duration_minutes: c.duration_minutes, labs_count: c.labs_count ?? 0,
       is_certification: c.is_certification, published: c.published,
       cover_url: c.cover_url ?? "", cert_code: c.cert_code ?? "",
       display_status: (c.display_status ?? "live") as DisplayStatus, free_enroll: c.free_enroll ?? false,
@@ -138,6 +138,7 @@ function AdminCourses() {
               </div>
               <Input label="Lessons" type="number" value={String(form.lesson_count)} onChange={(v) => setForm({ ...form, lesson_count: Number(v) })} />
               <Input label="Duration (min)" type="number" value={String(form.duration_minutes)} onChange={(v) => setForm({ ...form, duration_minutes: Number(v) })} />
+              <Input label="Hands-on labs" type="number" value={String(form.labs_count)} onChange={(v) => setForm({ ...form, labs_count: Number(v) })} />
               <div className="md:col-span-2">
                 <label className="text-xs font-medium text-muted-foreground">Thumbnail</label>
                 <div className="mt-1 flex flex-wrap items-center gap-3">
@@ -214,7 +215,7 @@ function AdminCourses() {
                   </div>
                 </div>
                 <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">{c.level}</span>
-                <span className="text-xs text-muted-foreground">{c.lesson_count} lessons</span>
+                <span className="text-xs text-muted-foreground">{c.lesson_count} lessons{(c.labs_count ?? 0) > 0 ? ` · ${c.labs_count} labs` : ""}</span>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                   {c.display_status === "live" ? "" : c.display_status === "coming_soon" ? "Coming soon" : "In dev"}
                 </span>
