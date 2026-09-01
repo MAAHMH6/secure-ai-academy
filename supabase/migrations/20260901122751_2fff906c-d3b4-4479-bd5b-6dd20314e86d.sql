@@ -1,0 +1,1 @@
+ALTER TABLE public.courses ADD COLUMN IF NOT EXISTS labs_count integer NOT NULL DEFAULT 0;

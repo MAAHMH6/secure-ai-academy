@@ -46,7 +46,7 @@ function CertificationsPage() {
       (
         await supabase
           .from("courses")
-          .select("id, slug, title, cert_code, lesson_count, price_cents, display_status, free_enroll")
+          .select("id, slug, title, cert_code, lesson_count, labs_count, price_cents, display_status, free_enroll")
           .eq("published", true)
           .eq("is_certification", true)
       ).data ?? [],
@@ -89,7 +89,7 @@ function CertificationsPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   <Stat icon={Clock} label="Study hours" value={`${t.hours}h`} />
-                  <Stat icon={FlaskConical} label="Practice labs" value={String(t.labs)} />
+                  <Stat icon={FlaskConical} label="Practice labs" value={String(course && course.labs_count > 0 ? course.labs_count : t.labs)} />
                   <Stat icon={Target} label="Projects" value={String(t.projects)} />
                   <Stat icon={Trophy} label="Exam simulator" value={t.simulator ? "Included" : "—"} />
                   <Stat icon={Briefcase} label="Salary range" value={t.salary} />

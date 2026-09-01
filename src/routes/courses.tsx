@@ -36,7 +36,7 @@ function CoursesPage() {
     queryFn: async () => {
       let q = supabase
         .from("courses")
-        .select("id, slug, title, subtitle, price_cents, lesson_count, level, is_certification, category_id, cover_url, display_status, free_enroll")
+        .select("id, slug, title, subtitle, price_cents, lesson_count, labs_count, level, is_certification, category_id, cover_url, display_status, free_enroll")
         .eq("published", true);
       if (filter) {
         const cat = categories.find((c) => c.slug === filter);
@@ -115,7 +115,7 @@ function CoursesPage() {
                     <div className="inline-flex items-center gap-1"><Clock className="size-3 text-brand" /> {Math.round(c.lesson_count * 0.75)}h</div>
                     <div className="inline-flex items-center gap-1"><BookOpen className="size-3 text-brand" /> {c.lesson_count} lessons</div>
                     <div className="inline-flex items-center gap-1"><Target className="size-3 text-brand" /> {Math.max(1, Math.floor(c.lesson_count / 8))} projects</div>
-                    <div className="inline-flex items-center gap-1"><FlaskConical className="size-3 text-brand" /> {Math.max(2, Math.floor(c.lesson_count / 3))} labs</div>
+                    <div className="inline-flex items-center gap-1"><FlaskConical className="size-3 text-brand" /> {c.labs_count > 0 ? c.labs_count : Math.max(2, Math.floor(c.lesson_count / 3))} labs</div>
                     <div className="inline-flex items-center gap-1"><Award className="size-3 text-brand" /> Cert</div>
                     <div className="inline-flex items-center gap-1"><User className="size-3 text-brand" /> Expert</div>
                   </div>

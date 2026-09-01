@@ -198,6 +198,7 @@ export type Database = {
           instructor_id: string | null
           is_certification: boolean
           kind: Database["public"]["Enums"]["course_kind"]
+          labs_count: number
           lesson_count: number
           level: Database["public"]["Enums"]["course_level"]
           price_cents: number
@@ -220,6 +221,7 @@ export type Database = {
           instructor_id?: string | null
           is_certification?: boolean
           kind?: Database["public"]["Enums"]["course_kind"]
+          labs_count?: number
           lesson_count?: number
           level?: Database["public"]["Enums"]["course_level"]
           price_cents?: number
@@ -242,6 +244,7 @@ export type Database = {
           instructor_id?: string | null
           is_certification?: boolean
           kind?: Database["public"]["Enums"]["course_kind"]
+          labs_count?: number
           lesson_count?: number
           level?: Database["public"]["Enums"]["course_level"]
           price_cents?: number
