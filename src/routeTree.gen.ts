@@ -34,6 +34,7 @@ import { Route as AuthenticatedLearnSlugRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminMentorRouteImport } from './routes/_authenticated/admin.mentor'
+import { Route as AuthenticatedAdminLabsRouteImport } from './routes/_authenticated/admin.labs'
 import { Route as AuthenticatedAdminCrmRouteImport } from './routes/_authenticated/admin.crm'
 import { Route as AuthenticatedAdminCoursesRouteImport } from './routes/_authenticated/admin.courses'
 import { Route as AuthenticatedAdminBlogsRouteImport } from './routes/_authenticated/admin.blogs'
@@ -169,6 +170,11 @@ const AuthenticatedAdminMentorRoute =
     path: '/mentor',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminLabsRoute = AuthenticatedAdminLabsRouteImport.update({
+  id: '/labs',
+  path: '/labs',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminCrmRoute = AuthenticatedAdminCrmRouteImport.update({
   id: '/crm',
   path: '/crm',
@@ -229,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/admin/blogs': typeof AuthenticatedAdminBlogsRoute
   '/admin/courses': typeof AuthenticatedAdminCoursesRoute
   '/admin/crm': typeof AuthenticatedAdminCrmRoute
+  '/admin/labs': typeof AuthenticatedAdminLabsRoute
   '/admin/mentor': typeof AuthenticatedAdminMentorRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -260,6 +267,7 @@ export interface FileRoutesByTo {
   '/admin/blogs': typeof AuthenticatedAdminBlogsRoute
   '/admin/courses': typeof AuthenticatedAdminCoursesRoute
   '/admin/crm': typeof AuthenticatedAdminCrmRoute
+  '/admin/labs': typeof AuthenticatedAdminLabsRoute
   '/admin/mentor': typeof AuthenticatedAdminMentorRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -294,6 +302,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/blogs': typeof AuthenticatedAdminBlogsRoute
   '/_authenticated/admin/courses': typeof AuthenticatedAdminCoursesRoute
   '/_authenticated/admin/crm': typeof AuthenticatedAdminCrmRoute
+  '/_authenticated/admin/labs': typeof AuthenticatedAdminLabsRoute
   '/_authenticated/admin/mentor': typeof AuthenticatedAdminMentorRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -328,6 +337,7 @@ export interface FileRouteTypes {
     | '/admin/blogs'
     | '/admin/courses'
     | '/admin/crm'
+    | '/admin/labs'
     | '/admin/mentor'
     | '/admin/settings'
     | '/admin/users'
@@ -359,6 +369,7 @@ export interface FileRouteTypes {
     | '/admin/blogs'
     | '/admin/courses'
     | '/admin/crm'
+    | '/admin/labs'
     | '/admin/mentor'
     | '/admin/settings'
     | '/admin/users'
@@ -392,6 +403,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/blogs'
     | '/_authenticated/admin/courses'
     | '/_authenticated/admin/crm'
+    | '/_authenticated/admin/labs'
     | '/_authenticated/admin/mentor'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
@@ -595,6 +607,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminMentorRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/labs': {
+      id: '/_authenticated/admin/labs'
+      path: '/labs'
+      fullPath: '/admin/labs'
+      preLoaderRoute: typeof AuthenticatedAdminLabsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/crm': {
       id: '/_authenticated/admin/crm'
       path: '/crm'
@@ -646,6 +665,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminBlogsRoute: typeof AuthenticatedAdminBlogsRoute
   AuthenticatedAdminCoursesRoute: typeof AuthenticatedAdminCoursesRoute
   AuthenticatedAdminCrmRoute: typeof AuthenticatedAdminCrmRoute
+  AuthenticatedAdminLabsRoute: typeof AuthenticatedAdminLabsRoute
   AuthenticatedAdminMentorRoute: typeof AuthenticatedAdminMentorRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
@@ -659,6 +679,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminBlogsRoute: AuthenticatedAdminBlogsRoute,
   AuthenticatedAdminCoursesRoute: AuthenticatedAdminCoursesRoute,
   AuthenticatedAdminCrmRoute: AuthenticatedAdminCrmRoute,
+  AuthenticatedAdminLabsRoute: AuthenticatedAdminLabsRoute,
   AuthenticatedAdminMentorRoute: AuthenticatedAdminMentorRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,

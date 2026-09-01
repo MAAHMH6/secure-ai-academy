@@ -309,6 +309,78 @@ export type Database = {
           },
         ]
       }
+      labs: {
+        Row: {
+          course_id: string
+          created_at: string
+          difficulty: Database["public"]["Enums"]["course_level"]
+          estimated_minutes: number
+          id: string
+          instructions: string | null
+          lab_url: string | null
+          lesson_id: string | null
+          objectives: string | null
+          order_index: number
+          published: boolean
+          slug: string
+          summary: string | null
+          title: string
+          tools: string | null
+          updated_at: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          difficulty?: Database["public"]["Enums"]["course_level"]
+          estimated_minutes?: number
+          id?: string
+          instructions?: string | null
+          lab_url?: string | null
+          lesson_id?: string | null
+          objectives?: string | null
+          order_index?: number
+          published?: boolean
+          slug: string
+          summary?: string | null
+          title: string
+          tools?: string | null
+          updated_at?: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          difficulty?: Database["public"]["Enums"]["course_level"]
+          estimated_minutes?: number
+          id?: string
+          instructions?: string | null
+          lab_url?: string | null
+          lesson_id?: string | null
+          objectives?: string | null
+          order_index?: number
+          published?: boolean
+          slug?: string
+          summary?: string | null
+          title?: string
+          tools?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "labs_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "labs_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lesson_progress: {
         Row: {
           completed_at: string
